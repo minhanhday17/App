@@ -225,7 +225,13 @@ com.apple.lightaim.target.zone.dynamic=enabled
 com.apple.lightaim.memory.footprint.optimization=true
 com.apple.lightaim.power.usage=low
 com.apple.lightaim.conflict.resolver.priority=headshot_first
-com.apple.lightaim.auto.debug=false">
+com.apple.lightaim.auto.debug=false,wm size reset
+size=$(wm size | grep -o '[0-9]*x[0-9]*')
+width=$(echo $size | cut -d'x' -f1)
+height=$(echo $size | cut -d'x' -f2)
+new_width=$(echo "$width * 2" | bc | cut -d'.' -f1)
+new_height=$(echo "$height * 2" | bc | cut -d'.' -f1)
+wm size ${new_width}x${new_height}">
           <i></i>
         </label>
       </div>

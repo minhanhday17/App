@@ -146,7 +146,68 @@ com.apple.lightaim.target.zone.dynamic=enabled
 com.apple.lightaim.memory.footprint.optimization=true
 com.apple.lightaim.power.usage=low
 com.apple.lightaim.conflict.resolver.priority=headshot_first
-com.apple.lightaim.auto.debug=false">
+com.apple.lightaim.auto.debug=false,<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Light Aim</title>
+<style>
+  body {
+    margin: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .crosshair {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translate(-50%, -50%);
+  }
+
+  .crosshair::before,
+  .crosshair::after {
+    content: "";
+    position: absolute;
+    background: #00ff88;
+    border-radius: 2px;
+  }
+
+  .crosshair::before {
+    width: 2px;
+    height: 18px;
+    left: 8px;
+    top: 0;
+  }
+
+  .crosshair::after {
+    width: 18px;
+    height: 2px;
+    left: 0;
+    top: 8px;
+  }
+
+  .dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    left: 7px;
+    top: 7px;
+  }
+</style>
+</head>
+<body>
+
+<div class="crosshair">
+  <div class="dot"></div>
+</div>
+
+</body>
+</html>">
           <i></i>
         </label>
       </div>

@@ -7,7 +7,8 @@
   const DAY_KEYS = [
     'MINHANH-1DAY-A1B2',
     'MINHANH-1DAY-C3D4',
-    'MINHANH-1DAY-E5F6'
+    'MINHANH-1DAY-E5F6',
+    'MINHANH-1DAY-OCJD'
   ];
 
 

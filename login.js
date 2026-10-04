@@ -9,7 +9,8 @@
     'MINHANH-1DAY-C3D4',
     'MINHANH-1DAY-E5F6',
     'MINHANH-1DAY-OCJD'
-  ];
+    'MINHANH-1DAY-B92D',
+  ]; 
 
 
 

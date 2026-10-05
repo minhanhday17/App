@@ -1646,7 +1646,302 @@ try{
         </div>
         <label class="switch">
           <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="dpi" data-toggle data-base64="CODE BASE64_1,CODE BASE64_2,CODE BASE64_3">
+          <input type="checkbox" id="dpi" data-toggle data-base64="<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Hỗ Trợ Kéo Tâm & Luyện Tập</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Thanh điều khiển */
+        .control-panel {
+            background: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .control-group label {
+            color: #aaa;
+        }
+
+        select, input, button {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 12px;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3a3a3a;
+        }
+
+        button.active {
+            background: #00ff88;
+            color: #000;
+            font-weight: bold;
+            border-color: #00ff88;
+        }
+
+        /* Khu vực hiển thị tâm và luyện tập */
+        #workspace {
+            position: relative;
+            flex-grow: 1;
+            background: radial-gradient(circle, #1e1e1e 0%, #0a0a0a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: crosshair;
+        }
+
+        /* Tâm ngắm (Crosshair) tùy chỉnh */
+        #crosshair {
+            position: absolute;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translate(-50%, -50%);
+            z-index: 500;
+        }
+
+        .cross-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .cross-line {
+            position: absolute;
+            background-color: #00ff88;
+        }
+
+        .line-top { width: 2px; height: 10px; bottom: 6px; }
+        .line-bottom { width: 2px; height: 10px; top: 6px; }
+        .line-left { width: 10px; height: 2px; right: 6px; }
+        .line-right { width: 10px; height: 2px; left: 6px; }
+
+        /* Mục tiêu để luyện tập kéo tâm */
+        .target {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #ff4757;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.1s;
+        }
+
+        .target:active {
+            transform: scale(0.9);
+        }
+
+        /* Bảng điểm */
+        .stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 18px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thanh công cụ cấu hình -->
+    <div class="control-panel">
+        <div class="control-group">
+            <label>Kiểu Tâm</label>
+            <select id="crosshairStyle" onchange="updateCrosshair()">
+                <option value="dot">Dấu chấm (Dot)</option>
+                <option value="classic" selected>Cổ điển (Classic)</option>
+                <option value="circle">Vòng tròn</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>Màu Sắc Tâm</label>
+            <input type="color" id="crosshairColor" value="#00ff88" onchange="updateCrosshairColor()">
+        </div>
+
+        <div class="control-group">
+            <label>Kích Thước Tâm</label>
+            <input type="range" id="crosshairSize" min="10" max="40" value="20" oninput="updateCrosshair()">
+        </div>
+
+        <div class="control-group">
+            <label>Chế Độ Luyện Tập</label>
+            <button id="btnTrain" onclick="toggleTraining()">Bật Tập Kéo Tâm</button>
+        </div>
+    </div>
+
+    <!-- Màn hình chính & Tâm ngắm -->
+    <div id="workspace" onclick="handleWorkspaceClick(event)">
+        <div class="stats" id="scoreBoard" style="display: none;">Điểm: <span id="score">0</span></div>
+        
+        <!-- Tâm ngắm ảo -->
+        <div id="crosshair">
+            <div class="cross-dot" id="cDot"></div>
+            <div class="cross-line line-top" id="cTop"></div>
+            <div class="cross-line line-bottom" id="cBottom"></div>
+            <div class="cross-line line-left" id="cLeft"></div>
+            <div class="cross-line line-right" id="cRight"></div>
+        </div>
+
+        <!-- Mục tiêu xuất hiện ngẫu nhiên -->
+        <div class="target" id="target" onclick="hitTarget(event)"></div>
+    </div>
+
+    <script>
+        const workspace = document.getElementById('workspace');
+        const crosshair = document.getElementById('crosshair');
+        const target = document.getElementById('target');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const scoreEl = document.getElementById('score');
+        
+        let isTraining = false;
+        let score = 0;
+        let targetInterval;
+
+        // Di chuyển tâm ngắm theo chuột/cảm ứng
+        workspace.addEventListener('mousemove', (e) => {
+            const rect = workspace.getBoundingClientRect();
+            crosshair.style.left = `${e.clientX - rect.left}px`;
+            crosshair.style.top = `${e.clientY - rect.top}px`;
+        });
+
+        workspace.addEventListener('touchmove', (e) => {
+            const rect = workspace.getBoundingClientRect();
+            const touch = e.touches[0];
+            crosshair.style.left = `${touch.clientX - rect.left}px`;
+            crosshair.style.top = `${touch.clientY - rect.top}px`;
+            e.preventDefault();
+        }, { passive: false });
+
+        // Tùy chỉnh giao diện tâm
+        function updateCrosshair() {
+            const style = document.getElementById('crosshairStyle').value;
+            const size = document.getElementById('crosshairSize').value;
+            
+            const dot = document.getElementById('cDot');
+            const lines = document.querySelectorAll('.cross-line');
+
+            if (style === 'dot') {
+                dot.style.display = 'block';
+                lines.forEach(l => l.style.display = 'none');
+            } else if (style === 'classic') {
+                dot.style.display = 'block';
+                lines.forEach(l => {
+                    l.style.display = 'block';
+                    l.style.transform = `scale(${size / 20})`;
+                });
+            } else if (style === 'circle') {
+                dot.style.display = 'block';
+                lines.forEach(l => l.style.display = 'none');
+            }
+        }
+
+        function updateCrosshairColor() {
+            const color = document.getElementById('crosshairColor').value;
+            document.getElementById('cDot').style.backgroundColor = color;
+            document.querySelectorAll('.cross-line').forEach(l => l.style.backgroundColor = color);
+        }
+
+        // Bật/tắt chế độ luyện tập kéo tâm (Aim Trainer)
+        function toggleTraining() {
+            isTraining = !isTraining;
+            const btn = document.getElementById('btnTrain');
+            
+            if (isTraining) {
+                btn.classList.add('active');
+                btn.textContent = 'Đang Tập... (Dừng)';
+                scoreBoard.style.display = 'block';
+                score = 0;
+                scoreEl.textContent = score;
+                target.style.display = 'block';
+                spawnTarget();
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = 'Bật Tập Kéo Tâm';
+                scoreBoard.style.display = 'none';
+                target.style.display = 'none';
+                clearTimeout(targetInterval);
+            }
+        }
+
+        function spawnTarget() {
+            if (!isTraining) return;
+            const rect = workspace.getBoundingClientRect();
+            const maxX = rect.width - 70;
+            const maxY = rect.height - 70;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            target.style.left = `${randomX}px`;
+            target.style.top = `${randomY}px`;
+        }
+
+        function hitTarget(e) {
+            e.stopPropagation();
+            if (!isTraining) return;
+            score++;
+            scoreEl.textContent = score;
+            spawnTarget();
+        }
+
+        function handleWorkspaceClick(e) {
+            // Xử lý khi bắn trượt trong chế độ luyện tập
+            if (isTraining && e.target === workspace) {
+                // Có thể trừ điểm hoặc bỏ qua tùy ý
+            }
+        }
+
+        // Khởi chạy cấu hình ban đầu
+        updateCrosshair();
+    </script>
+</body>
+</html>
+">
           <i></i>
         </label>
       </div>

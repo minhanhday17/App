@@ -1646,301 +1646,185 @@ try{
         </div>
         <label class="switch">
           <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="dpi" data-toggle data-base64="<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Hỗ Trợ Kéo Tâm & Luyện Tập</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+          <input type="checkbox" id="<script>
+(function(){
+"use strict";
 
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+var W=window,D=document,N=navigator;
+var _raf=W.requestAnimationFrame.bind(W);
+var _now=performance.now.bind(performance);
+var _origDpr=W.devicePixelRatio||1;
+var lastFrame=0;
+var TARGET_MS=8;
 
-        /* Thanh điều khiển */
-        .control-panel {
-            background: rgba(30, 30, 30, 0.9);
-            padding: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            border-bottom: 1px solid #333;
-        }
+var _m0="TWlub3dWbg==";
+var _m1="Qk4gQ29kZSBNaW5vd1Zu";
+var _m2=1907;
+var _m3="data-minowvn";
+var _m4="booster-v1";
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 14px;
-        }
+function _atob(s){try{return decodeURIComponent(escape(atob(s)))}catch(e){return""}}
 
-        .control-group label {
-            color: #aaa;
-        }
+W[atob("X19NSU5PV1ZO")]={a:_atob(_m1),v:_m4,t:Date.now(),k:_m2};
+if(D.documentElement)D.documentElement.setAttribute(_m3,_m4);
 
-        select, input, button {
-            background: #2a2a2a;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 8px 12px;
-            border-radius: 5px;
-            outline: none;
-            cursor: pointer;
-        }
+try{Object.defineProperty(W,"devicePixelRatio",{get:function(){return 1},configurable:true})}catch(e){}
 
-        button:hover {
-            background: #3a3a3a;
-        }
+W.requestAnimationFrame=function(cb){
+  return _raf(function(t){
+    if(t-lastFrame<TARGET_MS-0.5)return W.requestAnimationFrame(cb);
+    lastFrame=t;
+    try{cb(t)}catch(e){}
+  });
+};
 
-        button.active {
-            background: #00ff88;
-            color: #000;
-            font-weight: bold;
-            border-color: #00ff88;
-        }
+var css=D.createElement("style");
+css.setAttribute(_m3,"style-"+_m2);
+css.textContent=[
+"*{animation:none!important;transition:none!important;",
+"filter:none!important;box-shadow:none!important;",
+"backdrop-filter:none!important;text-shadow:none!important;",
+"scroll-behavior:auto!important;",
+"transform-style:flat!important;perspective:none!important;",
+"backface-visibility:hidden!important;",
+"contain:layout style paint!important;",
+"content-visibility:auto!important}",
+"html,body{overscroll-behavior:none!important;",
+"overflow-anchor:none!important;",
+"touch-action:manipulation!important;",
+"-webkit-overflow-scrolling:touch!important;",
+"-webkit-tap-highlight-color:transparent!important;",
+"user-select:none!important;-webkit-user-select:none!important;",
+"-webkit-touch-callout:none!important}",
+"canvas,video{image-rendering:pixelated!important;",
+"transform:translateZ(0)!important}",
+"img{decoding:async!important;loading:lazy!important}",
+"iframe[src*='ads'],iframe[src*='doubleclick'],",
+"iframe[src*='googlesyndication'],",
+"ins.adsbygoogle,div[id^='google_ads'],",
+"div[class*='ad-container'],div[class*='ad-wrapper']",
+"{display:none!important;pointer-events:none!important;",
+"width:0!important;height:0!important}",
+"button,a,input,select,textarea{",
+"touch-action:manipulation!important;",
+"-webkit-tap-highlight-color:transparent!important}",
+"::-webkit-scrollbar{width:0!important;height:0!important}"
+].join("");
 
-        /* Khu vực hiển thị tâm và luyện tập */
-        #workspace {
-            position: relative;
-            flex-grow: 1;
-            background: radial-gradient(circle, #1e1e1e 0%, #0a0a0a 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: crosshair;
-        }
+function attachCss(){
+  if(D.head)D.head.appendChild(css);
+  else D.addEventListener("DOMContentLoaded",function(){D.head.appendChild(css)},{once:true});
+}
+attachCss();
 
-        /* Tâm ngắm (Crosshair) tùy chỉnh */
-        #crosshair {
-            position: absolute;
-            pointer-events: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: translate(-50%, -50%);
-            z-index: 500;
-        }
+function killAds(){
+  try{
+    var sel="iframe[src*='ads'],iframe[src*='doubleclick'],iframe[src*='googlesyndication'],ins.adsbygoogle,div[id^='google_ads'],div[class*='ad-container'],div[class*='ad-wrapper']";
+    D.querySelectorAll(sel).forEach(function(el){try{el.remove()}catch(e){}});
+  }catch(e){}
+}
+killAds();
+setInterval(killAds,3000);
 
-        .cross-dot {
-            width: 4px;
-            height: 4px;
-            background-color: #00ff88;
-            border-radius: 50%;
-            position: absolute;
-        }
+try{
+  if(N.serviceWorker){
+    N.serviceWorker.getRegistrations().then(function(rs){
+      rs.forEach(function(r){try{r.unregister()}catch(e){}});
+    }).catch(function(){});
+  }
+}catch(e){}
 
-        .cross-line {
-            position: absolute;
-            background-color: #00ff88;
-        }
+try{
+  if("caches" in W){
+    caches.keys().then(function(k){
+      k.forEach(function(n){try{caches.delete(n)}catch(e){}});
+    }).catch(function(){});
+  }
+}catch(e){}
 
-        .line-top { width: 2px; height: 10px; bottom: 6px; }
-        .line-bottom { width: 2px; height: 10px; top: 6px; }
-        .line-left { width: 10px; height: 2px; right: 6px; }
-        .line-right { width: 10px; height: 2px; left: 6px; }
+function applyLight(root){
+  if(!root||root.nodeType!==1)return;
+  try{
+    var s=getComputedStyle(root);
+    if(s.animationName&&s.animationName!=="none")root.style.animation="none";
+    if(s.transition&&s.transition!=="all 0s ease 0s")root.style.transition="none";
+    if(s.filter&&s.filter!=="none")root.style.filter="none";
+    if(s.boxShadow&&s.boxShadow!=="none")root.style.boxShadow="none";
+    if(s.backdropFilter&&s.backdropFilter!=="none")root.style.backdropFilter="none";
+  }catch(e){}
+  if(root.tagName==="CANVAS"){
+    try{root.getContext("2d",{alpha:false,desynchronized:true,powerPreference:"high-performance",lowLatency:true})}catch(e){}
+  }
+}
 
-        /* Mục tiêu để luyện tập kéo tâm */
-        .target {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: #ff4757;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            cursor: pointer;
-            display: none;
-            transition: transform 0.1s;
-        }
+try{D.querySelectorAll("*").forEach(applyLight)}catch(e){}
 
-        .target:active {
-            transform: scale(0.9);
-        }
+try{
+  var mo=new MutationObserver(function(muts){
+    for(var i=0;i<muts.length;i++){
+      var arr=muts[i].addedNodes;
+      for(var j=0;j<arr.length;j++){
+        var n=arr[j];
+        if(n.nodeType!==1)continue;
+        applyLight(n);
+        if(n.querySelectorAll)n.querySelectorAll("*").forEach(applyLight);
+      }
+    }
+  });
+  if(D.documentElement)mo.observe(D.documentElement,{childList:true,subtree:true});
+}catch(e){}
 
-        /* Bảng điểm */
-        .stats {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 18px;
-            background: rgba(0,0,0,0.5);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-    </style>
-</head>
-<body>
+D.addEventListener("visibilitychange",function(){
+  if(D.hidden){
+    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
+    try{if(W.gc)W.gc()}catch(e){}
+  }else{
+    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
+  }
+});
 
-    <!-- Thanh công cụ cấu hình -->
-    <div class="control-panel">
-        <div class="control-group">
-            <label>Kiểu Tâm</label>
-            <select id="crosshairStyle" onchange="updateCrosshair()">
-                <option value="dot">Dấu chấm (Dot)</option>
-                <option value="classic" selected>Cổ điển (Classic)</option>
-                <option value="circle">Vòng tròn</option>
-            </select>
-        </div>
+W.addEventListener("blur",function(){
+  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
+});
+W.addEventListener("focus",function(){
+  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
+});
 
-        <div class="control-group">
-            <label>Màu Sắc Tâm</label>
-            <input type="color" id="crosshairColor" value="#00ff88" onchange="updateCrosshairColor()">
-        </div>
+try{
+  if("wakeLock" in N){
+    var req=function(){N.wakeLock.request("screen").catch(function(){})};
+    req();
+    D.addEventListener("visibilitychange",function(){
+      if(D.visibilityState==="visible")req();
+    });
+  }
+}catch(e){}
 
-        <div class="control-group">
-            <label>Kích Thước Tâm</label>
-            <input type="range" id="crosshairSize" min="10" max="40" value="20" oninput="updateCrosshair()">
-        </div>
+try{
+  if(D.documentElement){
+    D.documentElement.style.setProperty("-webkit-tap-highlight-color","transparent");
+    D.documentElement.style.setProperty("-webkit-touch-callout","none");
+  }
+}catch(e){}
 
-        <div class="control-group">
-            <label>Chế Độ Luyện Tập</label>
-            <button id="btnTrain" onclick="toggleTraining()">Bật Tập Kéo Tâm</button>
-        </div>
-    </div>
+setTimeout(function(){
+  try{D.querySelectorAll("img").forEach(function(img){
+    img.decoding="async";
+    img.loading="lazy";
+  })}catch(e){}
+  try{D.querySelectorAll("iframe").forEach(function(fr){
+    var s=fr.getAttribute("src")||"";
+    if(/ads|doubleclick|googlesyndication|analytics/i.test(s))fr.remove();
+  })}catch(e){}
+},800);
 
-    <!-- Màn hình chính & Tâm ngắm -->
-    <div id="workspace" onclick="handleWorkspaceClick(event)">
-        <div class="stats" id="scoreBoard" style="display: none;">Điểm: <span id="score">0</span></div>
-        
-        <!-- Tâm ngắm ảo -->
-        <div id="crosshair">
-            <div class="cross-dot" id="cDot"></div>
-            <div class="cross-line line-top" id="cTop"></div>
-            <div class="cross-line line-bottom" id="cBottom"></div>
-            <div class="cross-line line-left" id="cLeft"></div>
-            <div class="cross-line line-right" id="cRight"></div>
-        </div>
+try{
+  var _s="%c";
+  console.log(_s+"\u004d\u0069\u006e\u006f\u0077\u0056\u006e","color:#0f0;font-weight:bold");
+}catch(e){}
 
-        <!-- Mục tiêu xuất hiện ngẫu nhiên -->
-        <div class="target" id="target" onclick="hitTarget(event)"></div>
-    </div>
-
-    <script>
-        const workspace = document.getElementById('workspace');
-        const crosshair = document.getElementById('crosshair');
-        const target = document.getElementById('target');
-        const scoreBoard = document.getElementById('scoreBoard');
-        const scoreEl = document.getElementById('score');
-        
-        let isTraining = false;
-        let score = 0;
-        let targetInterval;
-
-        // Di chuyển tâm ngắm theo chuột/cảm ứng
-        workspace.addEventListener('mousemove', (e) => {
-            const rect = workspace.getBoundingClientRect();
-            crosshair.style.left = `${e.clientX - rect.left}px`;
-            crosshair.style.top = `${e.clientY - rect.top}px`;
-        });
-
-        workspace.addEventListener('touchmove', (e) => {
-            const rect = workspace.getBoundingClientRect();
-            const touch = e.touches[0];
-            crosshair.style.left = `${touch.clientX - rect.left}px`;
-            crosshair.style.top = `${touch.clientY - rect.top}px`;
-            e.preventDefault();
-        }, { passive: false });
-
-        // Tùy chỉnh giao diện tâm
-        function updateCrosshair() {
-            const style = document.getElementById('crosshairStyle').value;
-            const size = document.getElementById('crosshairSize').value;
-            
-            const dot = document.getElementById('cDot');
-            const lines = document.querySelectorAll('.cross-line');
-
-            if (style === 'dot') {
-                dot.style.display = 'block';
-                lines.forEach(l => l.style.display = 'none');
-            } else if (style === 'classic') {
-                dot.style.display = 'block';
-                lines.forEach(l => {
-                    l.style.display = 'block';
-                    l.style.transform = `scale(${size / 20})`;
-                });
-            } else if (style === 'circle') {
-                dot.style.display = 'block';
-                lines.forEach(l => l.style.display = 'none');
-            }
-        }
-
-        function updateCrosshairColor() {
-            const color = document.getElementById('crosshairColor').value;
-            document.getElementById('cDot').style.backgroundColor = color;
-            document.querySelectorAll('.cross-line').forEach(l => l.style.backgroundColor = color);
-        }
-
-        // Bật/tắt chế độ luyện tập kéo tâm (Aim Trainer)
-        function toggleTraining() {
-            isTraining = !isTraining;
-            const btn = document.getElementById('btnTrain');
-            
-            if (isTraining) {
-                btn.classList.add('active');
-                btn.textContent = 'Đang Tập... (Dừng)';
-                scoreBoard.style.display = 'block';
-                score = 0;
-                scoreEl.textContent = score;
-                target.style.display = 'block';
-                spawnTarget();
-            } else {
-                btn.classList.remove('active');
-                btn.textContent = 'Bật Tập Kéo Tâm';
-                scoreBoard.style.display = 'none';
-                target.style.display = 'none';
-                clearTimeout(targetInterval);
-            }
-        }
-
-        function spawnTarget() {
-            if (!isTraining) return;
-            const rect = workspace.getBoundingClientRect();
-            const maxX = rect.width - 70;
-            const maxY = rect.height - 70;
-
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-
-            target.style.left = `${randomX}px`;
-            target.style.top = `${randomY}px`;
-        }
-
-        function hitTarget(e) {
-            e.stopPropagation();
-            if (!isTraining) return;
-            score++;
-            scoreEl.textContent = score;
-            spawnTarget();
-        }
-
-        function handleWorkspaceClick(e) {
-            // Xử lý khi bắn trượt trong chế độ luyện tập
-            if (isTraining && e.target === workspace) {
-                // Có thể trừ điểm hoặc bỏ qua tùy ý
-            }
-        }
-
-        // Khởi chạy cấu hình ban đầu
-        updateCrosshair();
-    </script>
-</body>
-</html>
+})();
+</script>
 ">
           <i></i>
         </label>

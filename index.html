@@ -5,12 +5,1031 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#050506">
 <title>MINH ANH UI</title>
-<link rel="stylesheet" href="style.css">
+<style>
+:root{
+  --bg:#050506;--card:#0b0b0d;--line:#28272a;
+  --muted:#8290a3;--white:#f7f7f8;--pink:#ff2f61;--pink2:#d7194b;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;background:#000;color:var(--white);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;
+}
+body{min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+
+#particles{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+#particles .particle{
+  position:absolute;
+  bottom:-10px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,47,97,.9),rgba(255,47,97,0) 70%);
+  animation:particleFloat linear infinite;
+  pointer-events:none;
+}
+@keyframes particleFloat{
+  0%{transform:translateY(0) scale(1);opacity:0}
+  10%{opacity:1}
+  90%{opacity:.4}
+  100%{transform:translateY(-110vh) scale(.4);opacity:0}
+}
+
+/* ============ LOGIN ============ */
+.login-screen{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(255,47,97,.12),transparent 55%),
+    #050506;
+  transition:opacity .4s,visibility .4s;
+}
+.login-screen.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.login-box{
+  width:100%;
+  max-width:360px;
+  background:linear-gradient(180deg,#0d0d10,#08080a);
+  border:1px solid rgba(255,47,97,.35);
+  border-radius:28px;
+  padding:32px 24px 26px;
+  box-shadow:0 25px 70px rgba(0,0,0,.75),0 0 45px rgba(255,47,97,.12);
+  animation:loginPop .45s cubic-bezier(.2,.9,.25,1.2);
+  position:relative;
+  overflow:hidden;
+}
+.login-box:before{
+  content:"";
+  position:absolute;
+  top:-50%;left:-30%;right:-30%;height:100%;
+  background:linear-gradient(100deg,transparent 42%,rgba(255,47,97,.08) 50%,transparent 58%);
+  transform:translateX(-100%) rotate(8deg);
+  animation:sweep 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes loginPop{
+  0%{transform:translateY(20px) scale(.96);opacity:0}
+  100%{transform:translateY(0) scale(1);opacity:1}
+}
+.login-logo{
+  width:78px;height:78px;
+  margin:0 auto 16px;
+  border-radius:22px;
+  border:1px solid rgba(255,47,97,.6);
+  box-shadow:0 0 30px rgba(255,27,77,.45);
+  overflow:hidden;
+  background:linear-gradient(135deg,#1a0a10,#2a0d18);
+}
+.login-logo img{width:100%;height:100%;display:block;object-fit:cover}
+.login-title{
+  margin:0 0 6px;
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:-.5px;
+  color:#fff;
+}
+.login-title span{color:var(--pink)}
+.login-sub{
+  margin:0 0 22px;
+  text-align:center;
+  color:#8290a4;
+  font-size:13px;
+  letter-spacing:.3px;
+}
+.login-input-wrap{position:relative;margin-bottom:14px}
+.login-input{
+  width:100%;height:52px;
+  padding:0 44px 0 18px;
+  border-radius:15px;
+  border:1px solid #2a292d;
+  background:#111114;
+  color:#fff;
+  font-size:15px;font-weight:700;
+  letter-spacing:1.5px;
+  outline:none;
+  transition:.25s;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-transform:uppercase;
+}
+.login-input::placeholder{color:#4a4a52;font-weight:600;letter-spacing:1px}
+.login-input:focus{
+  border-color:rgba(255,47,97,.7);
+  box-shadow:0 0 0 3px rgba(255,47,97,.12),0 0 22px rgba(255,47,97,.18);
+  background:#15151a;
+}
+.login-input.error{border-color:#ff2f61;animation:shake .4s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-7px)}
+  40%{transform:translateX(7px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(5px)}
+}
+.login-clear{
+  position:absolute;
+  right:10px;top:50%;
+  transform:translateY(-50%);
+  width:28px;height:28px;
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  color:#8290a4;
+  font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.2s;
+  opacity:0;pointer-events:none;
+}
+.login-clear.show{opacity:1;pointer-events:auto}
+.login-clear:active{transform:translateY(-50%) scale(.9);background:rgba(255,47,97,.2)}
+.login-error{
+  min-height:18px;
+  color:#ff4169;
+  font-size:12.5px;font-weight:700;
+  letter-spacing:.2px;
+  text-align:center;
+  margin-bottom:8px;
+  opacity:0;
+  transition:opacity .25s;
+}
+.login-error.show{opacity:1}
+.login-btn{
+  width:100%;height:52px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#ff1744,#ff3d7a);
+  color:#fff;
+  font-size:15px;font-weight:900;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  box-shadow:0 9px 25px rgba(255,23,68,.28);
+  transition:transform .2s,box-shadow .3s,opacity .2s;
+  touch-action:manipulation;
+}
+.login-btn:active{transform:scale(.975)}
+.login-btn:disabled{opacity:.6;pointer-events:none}
+.login-status{
+  margin-top:20px;
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;color:#8290a4;
+  font-size:11px;font-weight:800;
+  letter-spacing:1.2px;
+}
+.login-status .dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--pink);
+  box-shadow:0 0 8px var(--pink);
+  animation:pulse 1.8s infinite;
+}
+
+/* ============ APP ============ */
+.app{
+  position:relative;
+  z-index:1;
+  width:min(calc(100% - 28px),430px);
+  min-height:calc(100vh - 28px);
+  margin:14px auto;
+  background:radial-gradient(circle at 80% 12%,rgba(255,31,83,.07),transparent 25%),#050506;
+  border:1px solid rgba(103,103,108,.42);
+  border-radius:34px;
+  overflow:hidden;
+  box-shadow:0 18px 70px rgba(0,0,0,.7),0 0 35px rgba(255,24,74,.035);
+  isolation:isolate;
+  display:none;
+}
+.app:after{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  border-radius:34px;
+  pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.018);
+  z-index:10;
+}
+.app.show{display:block}
+
+.topbar{
+  height:118px;
+  padding:20px 20px 17px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid #222124;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{
+  width:54px;height:54px;border-radius:16px;
+  border:1px solid rgba(255,47,97,.55);
+  box-shadow:0 0 22px rgba(255,27,77,.38);
+  object-fit:cover;display:block;
+  background:linear-gradient(135deg,#1a0a10,#2a0d18);
+}
+.brand h1{font-size:25px;line-height:1;margin:0 0 7px;font-weight:800;letter-spacing:-.7px}
+.brand p{margin:0;color:#8290a4;font-size:14px}
+.brand p span{color:var(--pink);font-weight:800}
+.online{
+  position:relative;overflow:hidden;
+  min-width:100px;height:49px;
+  border-radius:17px;
+  border:1px solid rgba(255,47,97,.55);
+  background:rgba(255,27,76,.07);
+  box-shadow:0 0 24px rgba(255,27,76,.2);
+  display:flex;align-items:center;justify-content:center;
+  gap:9px;color:var(--pink);
+  font-size:15px;font-weight:800;letter-spacing:.5px;
+}
+.online:after{
+  content:"";
+  position:absolute;
+  top:-100%;left:-30%;right:-30%;bottom:-100%;
+  background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.13) 50%,transparent 58%);
+  transform:translateX(-100%) rotate(8deg);
+  animation:sweep 4.8s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%,55%{transform:translateX(-100%) rotate(8deg)}
+  72%,100%{transform:translateX(100%) rotate(8deg)}
+}
+.dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--pink);
+  box-shadow:0 0 10px var(--pink);
+  animation:pulse 1.8s infinite;
+}
+@keyframes pulse{50%{box-shadow:0 0 18px var(--pink);transform:scale(1.12)}}
+
+.content{padding:21px 20px 118px}
+.welcome{
+  min-height:182px;
+  border:1px solid rgba(255,47,97,.58);
+  border-radius:28px;
+  padding:27px 28px 23px;
+  background:linear-gradient(135deg,rgba(70,13,28,.65),rgba(13,8,10,.88));
+  box-shadow:0 0 24px rgba(255,29,80,.08);
+  animation:up .6s ease both;
+}
+.welcome h2{margin:0 0 10px;font-size:25px;line-height:1.12;letter-spacing:-.6px}
+.welcome h2 span{color:var(--pink)}
+.sub{margin:0;color:#8490a2;font-size:15px;line-height:1.35}
+
+.section-title{
+  margin:26px 0 16px 1px;
+  color:#8190a3;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:1px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title svg{flex:0 0 auto;display:block;color:#8190a3}
+
+.modules{display:block}
+.module{
+  height:102px;
+  border:1px solid #29282b;
+  border-radius:26px;
+  background:linear-gradient(180deg,#0c0c0e,#0a0a0b);
+  display:flex;align-items:center;
+  padding:0 20px;
+  margin-bottom:14px;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .3s,background .3s;
+  animation:up .55s cubic-bezier(.2,.8,.2,1) both;
+  -webkit-user-select:none;user-select:none;
+  touch-action:manipulation;
+  isolation:isolate;
+}
+.module:before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,47,97,.15),transparent 34%);
+  opacity:0;transition:opacity .2s;
+  pointer-events:none;z-index:0;
+}
+.module:hover:before{opacity:1}
+.module:active{transform:scale(.985)}
+.module.on{
+  border-color:rgba(255,47,97,.62);
+  background:linear-gradient(180deg,rgba(48,9,20,.82),#0b090a);
+  box-shadow:0 0 24px rgba(255,30,80,.11);
+}
+.mod-icon{
+  width:44px;height:44px;margin-right:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;position:relative;z-index:2;
+  pointer-events:none;color:#e6e6ea;
+}
+.mod-icon svg{width:26px;height:26px;display:block;transition:filter .3s,color .3s,transform .3s}
+.module.on .mod-icon{color:var(--pink)}
+.module.on .mod-icon svg{
+  filter:drop-shadow(0 0 9px rgba(255,47,97,.9));
+  transform:scale(1.05);
+}
+.mod-copy{min-width:0;flex:1;position:relative;z-index:2;pointer-events:none}
+.mod-name{font-size:18px;font-weight:800;letter-spacing:.3px;line-height:1.1}
+.mod-desc{
+  font-size:14px;color:#8c8c91;margin-top:8px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.tap-layer{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  z-index:1;border-radius:inherit;background:transparent;
+}
+.switch{
+  display:block;
+  width:64px;height:40px;min-width:64px;
+  border-radius:20px;
+  border:2px solid #303033;
+  background:#111113;
+  padding:0;flex:0 0 auto;
+  position:relative;cursor:pointer;
+  touch-action:manipulation;
+  z-index:9;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+  -webkit-appearance:none;appearance:none;
+}
+.switch input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;margin:0}
+.switch i{
+  position:absolute;
+  left:3px;top:5px;
+  display:block;
+  width:25px;height:25px;
+  border-radius:50%;
+  background:#8f8f92;
+  transition:transform .3s cubic-bezier(.2,.9,.25,1.2),background .3s,box-shadow .3s;
+  box-shadow:0 1px 3px #000;
+  pointer-events:none;
+}
+.module.on .switch,
+.switch.checked{
+  border-color:rgba(255,47,97,.7);
+  background:rgba(255,47,97,.22);
+  box-shadow:0 0 14px rgba(255,47,97,.16);
+}
+.module.on .switch i,
+.switch.checked i{
+  transform:translateX(28px);
+  background:var(--pink);
+  box-shadow:0 0 15px rgba(255,47,97,.8);
+}
+
+.panel{display:none;animation:up .35s ease both}
+.panel.show{display:block}
+.monitor-card,.settings-card{
+  border:1px solid #29282b;
+  border-radius:26px;
+  background:#0b0b0d;
+  padding:22px;
+  margin-bottom:14px;
+}
+.metric{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid #202023;
+  color:#8f98a7;
+}
+.metric:last-child{border-bottom:0}
+.metric b{color:#f4f4f5}
+.setting{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid #202023;
+}
+.setting:last-child{border:0}
+.setting small{display:block;color:#858a93;margin-top:5px}
+
+.bottom{
+  position:absolute;
+  z-index:20;
+  left:14px;right:14px;bottom:14px;
+  height:101px;
+  border:1px solid #262528;
+  border-radius:28px;
+  background:rgba(7,7,8,.965);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  padding:10px 10px 8px;
+  box-shadow:0 -10px 35px rgba(0,0,0,.55);
+}
+.nav{
+  border:0;background:transparent;
+  border-radius:19px;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  gap:7px;
+  color:#7f8da0;
+  font-weight:800;font-size:12px;letter-spacing:.5px;
+  cursor:pointer;transition:.25s;
+  touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;
+}
+.nav .ni{display:flex;align-items:center;justify-content:center;line-height:1}
+.nav .ni svg{display:block}
+.nav.active{
+  color:var(--pink);
+  border:1px solid rgba(255,47,97,.55);
+  background:rgba(255,27,76,.10);
+  box-shadow:0 0 20px rgba(255,27,76,.1);
+  animation:pop .35s cubic-bezier(.2,.9,.25,1.2);
+}
+.nav:active{transform:scale(.92)}
+
+.toast{
+  position:fixed;
+  left:50%;bottom:124px;
+  transform:translate(-50%,18px);
+  opacity:0;pointer-events:none;
+  background:rgba(21,17,20,.94);
+  border:1px solid rgba(255,47,97,.5);
+  color:#fff;
+  padding:10px 15px;
+  border-radius:14px;
+  font-size:13px;
+  transition:.25s;
+  z-index:9000;
+  box-shadow:0 8px 25px rgba(0,0,0,.45);
+  white-space:nowrap;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.ripple{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.2);
+  transform:scale(0);
+  animation:ripple .65s ease-out forwards;
+  z-index:5;pointer-events:none;
+}
+@keyframes ripple{to{transform:scale(3.2);opacity:0}}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pop{50%{transform:scale(1.035)}}
+
+.v4-flash{animation:v4Flash .38s ease-out}
+@keyframes v4Flash{
+  0%{box-shadow:0 0 0 rgba(255,47,97,0)}
+  45%{box-shadow:0 0 34px rgba(255,47,97,.25)}
+  100%{box-shadow:0 0 18px rgba(255,47,97,.08)}
+}
+
+.apply-wrap{width:100%;margin:22px 0 10px;position:relative;z-index:100}
+.apply-btn{
+  appearance:none;-webkit-appearance:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  position:relative;z-index:101;
+  overflow:hidden;
+  width:100%;height:52px;padding:0;
+  border:0;border-radius:15px;
+  background:linear-gradient(135deg,#ff1744,#ff3d7a);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  gap:9px;
+  font-size:15px;font-weight:900;letter-spacing:1px;
+  cursor:pointer;
+  box-shadow:0 9px 25px rgba(255,23,68,.24);
+  transition:transform .2s,box-shadow .3s,background .3s;
+}
+.apply-btn:active{transform:scale(.975)}
+.apply-btn.has-active{
+  background:linear-gradient(135deg,#ff2f61,#ff5c85);
+  animation:applyPulse 2.4s ease-in-out infinite;
+}
+@keyframes applyPulse{
+  0%,100%{box-shadow:0 9px 25px rgba(255,23,68,.24)}
+  50%{box-shadow:0 9px 35px rgba(255,47,97,.5),0 0 25px rgba(255,47,97,.35)}
+}
+
+.game-select{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:9998;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+  padding:24px;
+}
+.game-select.active{display:flex}
+.game-select-box{
+  width:100%;max-width:360px;
+  background:#0d0d10;
+  border:1px solid rgba(255,47,97,.35);
+  border-radius:24px;
+  padding:22px 18px 18px;
+  box-shadow:0 25px 60px rgba(0,0,0,.7),0 0 40px rgba(255,47,97,.12);
+  animation:modalPop .3s cubic-bezier(.2,.9,.25,1.2);
+}
+@keyframes modalPop{
+  0%{transform:translateY(16px) scale(.97);opacity:0}
+  100%{transform:translateY(0) scale(1);opacity:1}
+}
+.game-select-title{
+  margin:0 0 18px;
+  font-size:17px;font-weight:900;
+  letter-spacing:.3px;color:#fff;
+  text-align:center;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.game-select-options{display:flex;flex-direction:column;gap:11px}
+.package-option{
+  position:relative;
+  display:flex;align-items:center;gap:13px;
+  width:100%;min-height:66px;
+  padding:12px 44px 12px 14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  background:#17171d;
+  color:#fff;text-align:left;
+  cursor:pointer;
+  touch-action:manipulation;
+  transition:transform .2s,border-color .25s,background .25s,box-shadow .25s;
+}
+.package-option:active{transform:scale(.98)}
+.package-option.selected{
+  border-color:#ff315f;
+  background:rgba(255,49,95,.13);
+  box-shadow:0 0 22px rgba(255,47,97,.22);
+}
+.pkg-icon{
+  width:42px;height:42px;flex:0 0 auto;
+  border-radius:12px;display:block;object-fit:cover;
+  background:linear-gradient(135deg,#2a0d18,#160709);
+  border:1px solid rgba(255,47,97,.35);
+}
+.pkg-info{flex:1;min-width:0}
+.pkg-name{display:block;font-size:14px;font-weight:800;letter-spacing:-.2px}
+.pkg-id{
+  display:block;font-size:11px;color:#9aa0ad;
+  margin-top:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.pkg-check{
+  position:absolute;
+  right:14px;top:50%;
+  transform:translateY(-50%);
+  font-size:20px;font-style:normal;
+  font-weight:900;color:#ff4169;
+  opacity:0;transition:opacity .2s;
+}
+.package-option.selected .pkg-check{opacity:1}
+.game-select-cancel{
+  width:100%;height:44px;
+  margin-top:12px;
+  border-radius:13px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:#aaaab6;
+  font-weight:800;font-size:13px;letter-spacing:.5px;
+  cursor:pointer;
+  touch-action:manipulation;
+  transition:.2s;
+}
+.game-select-cancel:active{transform:scale(.98);background:rgba(255,255,255,.08)}
+
+.toast-error{
+  display:none;
+  position:fixed;
+  left:50%;bottom:150px;
+  transform:translate(-50%,0);
+  background:rgba(40,10,15,.97);
+  border:1px solid rgba(255,47,97,.7);
+  color:#fff;
+  padding:12px 20px;
+  border-radius:14px;
+  font-size:13px;font-weight:700;
+  box-shadow:0 10px 35px rgba(255,47,97,.3);
+  z-index:9999;
+  white-space:nowrap;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.toast-error.active{display:block;animation:toastPop .3s ease-out}
+@keyframes toastPop{
+  0%{transform:translate(-50%,20px);opacity:0}
+  100%{transform:translate(-50%,0);opacity:1}
+}
+
+.loading-overlay{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:9997;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;
+}
+.loading-overlay.active{display:flex}
+.loading-content{
+  display:flex;flex-direction:column;
+  align-items:center;gap:22px;
+}
+.loading-spinner{
+  display:none;
+  width:64px;height:64px;
+  border:3px solid rgba(255,47,97,.18);
+  border-top-color:var(--pink);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  box-shadow:0 0 30px rgba(255,47,97,.35);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{
+  display:none;
+  color:var(--pink);
+  font-size:14px;font-weight:900;
+  letter-spacing:2px;
+  text-shadow:0 0 18px rgba(255,47,97,.6);
+  animation:blink 1.4s ease-in-out infinite;
+}
+@keyframes blink{50%{opacity:.4}}
+.loading-success{
+  display:none;
+  flex-direction:column;
+  align-items:center;gap:14px;
+  color:var(--pink);
+}
+.loading-success.active{
+  display:flex;
+  animation:successPop .5s cubic-bezier(.2,.9,.25,1.4);
+}
+.loading-success svg{filter:drop-shadow(0 0 20px rgba(255,47,97,.8))}
+.loading-success span{
+  font-size:15px;font-weight:900;
+  letter-spacing:2px;
+  text-shadow:0 0 18px rgba(255,47,97,.6);
+}
+@keyframes successPop{
+  0%{transform:scale(.5);opacity:0}
+  60%{transform:scale(1.1)}
+  100%{transform:scale(1);opacity:1}
+}
+
+@media(max-height:700px){
+  .topbar{height:108px}
+  .content{padding-top:17px}
+  .module{height:94px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+.user-info{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:14px;
+}
+.user-info span{
+  display:inline-flex;align-items:center;
+  height:30px;padding:0 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,47,97,.4);
+  background:rgba(255,28,78,.07);
+  color:var(--pink);
+  font-size:11.5px;font-weight:800;
+  letter-spacing:.6px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.user-info span#userExpireLabel{
+  border-color:rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);
+  color:#b8c0cd;
+}
+.countdown{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;
+  padding:12px 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,47,97,.45);
+  background:linear-gradient(135deg,rgba(255,28,78,.14),rgba(255,28,78,.04));
+  box-shadow:inset 0 0 18px rgba(255,28,78,.06);
+}
+.cd-label{
+  color:#8290a4;font-size:11px;
+  font-weight:900;letter-spacing:1.5px;
+}
+.cd-time{
+  color:var(--pink);
+  font-size:18px;font-weight:900;
+  letter-spacing:2px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-shadow:0 0 14px rgba(255,47,97,.55);
+}
+.countdown.warning{
+  border-color:rgba(255,180,0,.6);
+  background:linear-gradient(135deg,rgba(255,180,0,.12),rgba(255,180,0,.03));
+}
+.countdown.warning .cd-time{
+  color:#ffb400;
+  text-shadow:0 0 14px rgba(255,180,0,.6);
+}
+.countdown.danger{
+  border-color:rgba(255,47,97,.9);
+  background:linear-gradient(135deg,rgba(255,28,78,.28),rgba(255,28,78,.08));
+  animation:dangerPulse 1.4s ease-in-out infinite;
+}
+.countdown.danger .cd-time{
+  color:#ff2f61;
+  text-shadow:0 0 20px rgba(255,47,97,.9);
+}
+@keyframes dangerPulse{
+  0%,100%{box-shadow:inset 0 0 18px rgba(255,28,78,.1)}
+  50%{box-shadow:inset 0 0 26px rgba(255,28,78,.35),0 0 22px rgba(255,47,97,.3)}
+}
+
+.log-card{
+  border:1px solid #29282b;
+  border-radius:22px;
+  background:#0b0b0d;
+  padding:14px;
+  margin-bottom:14px;
+}
+.log-empty{
+  text-align:center;color:#5a606d;
+  font-size:13px;font-weight:700;
+  padding:22px 10px;letter-spacing:.5px;
+}
+.log-list{
+  display:flex;flex-direction:column;
+  gap:8px;max-height:280px;
+  overflow-y:auto;
+}
+.log-list::-webkit-scrollbar{width:5px}
+.log-list::-webkit-scrollbar-thumb{background:rgba(255,47,97,.4);border-radius:3px}
+.log-item{
+  display:flex;flex-direction:column;gap:5px;
+  padding:11px 13px;
+  border-radius:13px;
+  border:1px solid #232226;
+  background:#111114;
+  animation:logFade .3s ease both;
+}
+@keyframes logFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.log-item.active{
+  border-color:rgba(255,47,97,.5);
+  background:rgba(255,28,78,.07);
+}
+.log-item-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;
+}
+.log-key{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12.5px;font-weight:800;color:#fff;
+  letter-spacing:.5px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.log-badge{
+  flex:0 0 auto;
+  font-size:9.5px;font-weight:900;
+  letter-spacing:.6px;
+  padding:3px 8px;
+  border-radius:7px;
+  background:rgba(255,47,97,.18);
+  color:var(--pink);
+  border:1px solid rgba(255,47,97,.4);
+}
+.log-badge.perm{
+  background:rgba(0,200,120,.15);
+  color:#00d68f;
+  border-color:rgba(0,214,143,.4);
+}
+.log-badge.expired{
+  background:rgba(120,120,130,.15);
+  color:#8a8f9a;
+  border-color:rgba(120,120,130,.35);
+}
+.log-item-bottom{
+  display:flex;justify-content:space-between;
+  gap:8px;font-size:10.5px;
+  color:#7d8493;font-weight:700;letter-spacing:.3px;
+}
+.log-item-bottom span{white-space:nowrap}
+.log-clear-btn{
+  width:100%;height:40px;
+  margin-top:12px;
+  border-radius:12px;
+  background:rgba(255,47,97,.08);
+  border:1px solid rgba(255,47,97,.4);
+  color:var(--pink);
+  font-size:12px;font-weight:900;letter-spacing:1px;
+  cursor:pointer;transition:.2s;
+  touch-action:manipulation;
+}
+.log-clear-btn:active{transform:scale(.97);background:rgba(255,47,97,.18)}
+.log-clear-btn:disabled{opacity:.35;pointer-events:none}
+
+.logout-btn{
+  height:36px;padding:0 18px;
+  border-radius:11px;
+  border:1px solid rgba(255,47,97,.55);
+  background:rgba(255,28,78,.1);
+  color:var(--pink);
+  font-size:12px;font-weight:900;letter-spacing:.8px;
+  cursor:pointer;transition:.2s;
+  touch-action:manipulation;
+}
+.logout-btn:active{transform:scale(.95);background:rgba(255,28,78,.22)}
+
+.contact-setting{
+  cursor:pointer;
+  transition:background .2s;
+  border-radius:12px;
+  padding:12px 10px;
+  margin:0 -10px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;border-bottom:0 !important;
+}
+.contact-setting:active{background:rgba(255,47,97,.08)}
+.contact-info{
+  display:flex;align-items:center;gap:12px;
+  min-width:0;flex:1;
+}
+.contact-icon{
+  width:42px;height:42px;
+  border-radius:50%;
+  object-fit:cover;display:block;
+  flex:0 0 42px;
+  border:2px solid rgba(255,47,97,.55);
+  background:#fff;
+  box-shadow:0 0 14px rgba(255,47,97,.35);
+  padding:2px;
+}
+.contact-info b{
+  font-size:15px;color:#fff;
+  letter-spacing:.3px;font-weight:800;
+}
+.contact-arrow{
+  font-size:24px;color:#7f8da0;
+  font-weight:300;line-height:1;
+  flex:0 0 auto;transition:transform .2s,color .2s;
+}
+.contact-setting:active .contact-arrow{
+  transform:translateX(4px);color:var(--pink);
+}
+
+.zalo-float{
+  position:fixed;
+  right:22px;bottom:60px;
+  width:56px;height:56px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10001;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s cubic-bezier(.2,.9,.25,1.2);
+  animation:zaloPop .6s cubic-bezier(.2,.9,.25,1.4) both;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  display:none;
+}
+.zalo-float.show{display:flex}
+@keyframes zaloPop{
+  0%{transform:scale(0) rotate(-180deg);opacity:0}
+  60%{transform:scale(1.15) rotate(10deg)}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.zalo-float:active{transform:scale(.92)}
+.zalo-icon{
+  position:relative;
+  width:56px;height:56px;
+  border-radius:50%;
+  object-fit:cover;display:block;
+  border:2px solid rgba(255,255,255,.9);
+  background:#fff;
+  box-shadow:
+    0 0 0 2px rgba(0,104,255,.5),
+    0 8px 24px rgba(0,104,255,.4),
+    0 0 30px rgba(0,104,255,.35);
+  z-index:2;
+  animation:zaloShine 3s ease-in-out infinite;
+}
+@keyframes zaloShine{
+  0%,100%{box-shadow:0 0 0 2px rgba(0,104,255,.5),0 8px 24px rgba(0,104,255,.4),0 0 30px rgba(0,104,255,.35)}
+  50%{box-shadow:0 0 0 2px rgba(0,104,255,.8),0 8px 30px rgba(0,104,255,.6),0 0 45px rgba(0,104,255,.6)}
+}
+.zalo-ring{
+  position:absolute;
+  top:50%;left:50%;
+  width:56px;height:56px;
+  border-radius:50%;
+  border:2px solid rgba(0,104,255,.6);
+  transform:translate(-50%,-50%);
+  animation:zaloRing 2s ease-out infinite;
+  pointer-events:none;
+}
+.zalo-ring-2{animation-delay:1s}
+@keyframes zaloRing{
+  0%{transform:translate(-50%,-50%) scale(1);opacity:.8}
+  100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}
+}
+.zalo-tooltip{
+  position:absolute;
+  right:72px;top:50%;
+  transform:translateY(-50%) translateX(10px);
+  background:linear-gradient(135deg,#0068ff,#0084ff);
+  color:#fff;
+  padding:9px 14px;
+  border-radius:12px;
+  font-size:12px;font-weight:800;
+  letter-spacing:.3px;
+  white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+  box-shadow:0 8px 24px rgba(0,104,255,.4);
+  display:flex;flex-direction:column;
+  gap:2px;line-height:1.3;
+}
+.zalo-tooltip:after{
+  content:"";
+  position:absolute;
+  right:-6px;top:50%;
+  transform:translateY(-50%);
+  width:0;height:0;
+  border-left:6px solid #0084ff;
+  border-top:6px solid transparent;
+  border-bottom:6px solid transparent;
+}
+.zalo-tooltip-label{
+  font-size:9.5px;font-weight:900;
+  letter-spacing:1px;opacity:.85;
+}
+.zalo-tooltip-phone{
+  font-size:13px;font-weight:900;
+  letter-spacing:.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.zalo-float.show-tooltip .zalo-tooltip{
+  opacity:1;
+  transform:translateY(-50%) translateX(0);
+}
+
+*{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+}
+input,textarea{
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+}
+img{pointer-events:none;-webkit-user-drag:none}
+</style>
 </head>
 <body>
 
 <div id="particles"></div>
 
+<!-- ================= LOGIN SCREEN ================= -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="avata.png" alt="MINH ANH">
+    </div>
+    <h1 class="login-title">MINH ANH <span>UI</span></h1>
+    <p class="login-sub">Nhập key để truy cập hệ thống</p>
+
+    <div class="login-input-wrap">
+      <input type="text" id="loginKey" class="login-input" autocomplete="off" spellcheck="false">
+      <button type="button" class="login-clear" id="loginClear">✕</button>
+    </div>
+
+    <div class="login-error" id="loginError"></div>
+
+    <button type="button" class="login-btn" id="loginBtn">
+      ĐĂNG NHẬP
+    </button>
+
+    <div class="login-status" id="loginStatus">
+      <span class="dot"></span> HỆ THỐNG SẴN SÀNG
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN APP ================= -->
 <div class="app" id="mainApp">
 
   <header class="topbar">
@@ -72,166 +1091,7 @@
           <div class="mod-desc">Khóa tâm bám mục tiêu tự động</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="aimlock" data-toggle data-base64="<string>0ddf42fd2b8ae876e62c08df6a6597224aeb13cdcef15a46130ab680d43723cc</string>
-			<string>050c1d355771d76b82e4e2502855cff269f816b70649a7c696759226d1e7471a</string>
-			<string>8f5a3657d6446029061b7b38de2b0e551da396aeec9909e9d9d85768ab2a9352</string>
-			<string>e8215eadbcaedc1d090f92a1c55b8803a31a26c2a861e7ffd686d902c4da225f</string>
-			<string>49564b7f569a88929d24fff0d19858c66a38675e6cf559ac05204b529460a891</string>
-			<string>5583b44e237c30bc39c2e70fae9b4b58ac34efb7ad0f1cc1cc7c75387b24a296</string>
-			<string>bff7575e834f37baac6dbd19df6f8761bf5230bc7e2e63831df0fdc7583ecfd6</string>
-			<string>60a77c85cd972391b3788c09c520e8b20518190611d081fc1dc25104959f4b7f</string>
-			<string>66c41fe70a906316988e790b39f711042301f2a7e0c1f342fb585bee33dc8f18</string>
-			<string>a426f91c95cc8f2feacaeb333a30985ce8084dab4f21e1c76de5c31117480314</string>
-			<string>037473a0d0ba9a80981405bcd783ee2879e9ade05e7de80be23decc6af29dfb3</string>
-			<string>8e7de47156d67f374c49362cd141fc36cf2bad3e57f1103bff03905b63e21ace</string>
-			<string>7a79536210526586c6a29ffa3f56ec1f65ae1434a1498efa5fefd34c4caf7ce9</string>
-			<string>752eefbf10a0af1891b7eedd3739cafdf3a21951a27d0cdf4a0f3c62fc81d268</string>
-			<string>b70d3549cb4fd4516b80f1f3a370afd9dd6bd6f7d17aa7f8f748d7da8505276d</string>
-			<string>7a79536210526586c6a29ffa3f56ec1f65ae1434a1498efa5fefd34c4caf7ce9</string>
-			<string>b70d3549cb4fd4516b80f1f3a370afd9dd6bd6f7d17aa7f8f748d7da8505276d</string>
-			<string>9012f0cb8596ef587ad1e3b7194b64ce293c4fc92fd5bdb844a4916ddd0e43f2</string>
-			<string>d5a1cb42b6f3d5794edd52ad43bc403396a331003e94000e0ac3cefe5bc2c2a1</string>
-			<string>2518ebbf5e42a9e1a164d3a614d919477c51853f1462ff9989c7bd083c0d09c3</string>
-			<string>253919285422ce48e51ec084e66a8a6cd7acee38053c7a10997878f9cc4f7b9c</string>
-			<string>3245e3372c99634836d6463b4980b2ec5069c483d1d7d7b5309d20e57281b64a</string>
-			<string>13c711c8e22af1fecdf97b1e2184a9997bf7daa37b9d30d7e684238378c514a0</string>
-			<string>7c6af51790e664b87a3859598f8b63f54858280618087fc1313be41091d9b36c</string>
-			<string>8d01aa590e25a761c8b88335ce70fe279ff7c0b5b82c964f07fb15daba698242</string>
-			<string>ff8a191cd6dbc02c1e0037cb0deaad188d54e0d0752bb5b37577012403072ce4</string>
-			<string>a6a3ef81f47c9904e1dd1e686fd3f1cec551c09361911b48b792683f037ddd20</string>
-			<string>39a2ab5a868c04f42412eb7b5bd6640bb81b1986c05ce635eddedbdb228c88ac</string>
-			<string>832fc09857fffb950c252748c45fdde75a1b3a887c3cbb4a2b89c0e5a3ea071a</string>
-			<string>e6fc17d9ecd45ab5f17a71dbf7823285c5c32b05703009d6c0e68825ccc78d7f</string>
-			<string>a07a81a00cdab1baa2a9d9b1c731616f57f158e4c508a9a6157cfe939b24ecf2</string>
-			<string>60a77c85cd972391b3788c09c520e8b20518190611d081fc1dc25104959f4b7f</string>
-			<string>18a728b7b8c0b8a8499cd46f5afc5c79c7cb431a52b2c01493f9df7141c35c21</string>
-			<string>3b1496ad9663e092d34245243085410b4cafce66159b13ce7cd375057149688d</string>
-			<string>812a568751e5386effbe6ca2bf96168cda5043cb96e782710ea451e2692f6ab5</string>
-			<string>812a568751e5386effbe6ca2bf96168cda5043cb96e782710ea451e2692f6ab5</string>
-			<string>3b1496ad9663e092d34245243085410b4cafce66159b13ce7cd375057149688d</string>
-			<string>edfdea566d552f35e860f83e1a5b823dc932b559591ef69da100d4a0424cab59</string>
-			<string>edfdea566d552f35e860f83e1a5b823dc932b559591ef69da100d4a0424cab59</string>
-			<string>9c4afeb4695bb653d136417f0a36522a0d63dbf491f53b42e2ff5676562a448a</string>
-			<string>90dc63fcc8f0fc9017f3b6443a76f92acca362799311f3ea92331d0038da398c</string>
-			<string>9c4afeb4695bb653d136417f0a36522a0d63dbf491f53b42e2ff5676562a448a</string>
-			<string>90dc63fcc8f0fc9017f3b6443a76f92acca362799311f3ea92331d0038da398c</string>
-			<string>9012f0cb8596ef587ad1e3b7194b64ce293c4fc92fd5bdb844a4916ddd0e43f2</string>
-			<string>976ca67dd478e120024157f0e7503f8381fa470fc9928f2a98f021c3bbbb2901</string>
-			<string>e63aa37761252ee12caa663a62585b0ebb0b49e78df58966a6f3b414201050c0</string>
-			<string>578080dbe65b1eedc9c6be16b6faf4bfbaf2e562c4c04db7e881fbf99cd72234</string>
-			<string>f3004438d0f4a8b094bed197a48335ebb229d144f79f205478fd0ead4a28e588</string>
-			<string>306f338c754e7885f90d0a5f7e966bf71a54a169c9cf095c6e10bf406046d655</string>
-			<string>e3de05d19c37f2d545bcf0da89581e2345768a24f080738cc92402bf7de07a7f</string>
-			<string>a1908707e7c304f0b02a415d9f08b88ea9f990210369bc96320e73907e5d4c41</string>
-			<string>541b23b3a99c75c83e87ec5b2b3ed15869fbcac9b7d7818aacd90d195e06133b</string>
-			<string>cf0b949eaa485279f3b757be9814636f34ba3e78f365974bad67e32b244e67cb</string>
-			<string>ba885d7ee95a828d610cb7606fec4e06bb5aefbc41b20af3b92b6c05941c4bfa</string>
-			<string>d5a1cb42b6f3d5794edd52ad43bc403396a331003e94000e0ac3cefe5bc2c2a1</string>
-			<string>ba885d7ee95a828d610cb7606fec4e06bb5aefbc41b20af3b92b6c05941c4bfa</string>
-			<string>ab362aa3b5ef9ab836d4c148cf203fc80917cab95092e6cea51d56e52c50144b</string>
-			<string>976ca67dd478e120024157f0e7503f8381fa470fc9928f2a98f021c3bbbb2901</string>
-			<string>32494b4b0c528cc1a31625bbddb94ccd1758492400c7e4ca91ae977838c65a72</string>
-			<string>1d2ebf262d6e7cdb0c75984ad542e379b45332363d3e01b4b1cf5ded88804edf</string>
-			<string>f3174a6e80ce1233ab3894cda138bcf888bab399714a0c2effbc2a072c8e1da1</string>
-			<string>af7b50bbff3ba9616adeab74312d00729558268be3bd93638c9f2355a30a133d</string>
-			<string>f5ee9e92415760ee4b3adc662b17e74b6055a077c803a18ec7c95870f4bb921e</string>
-			<string>af7b50bbff3ba9616adeab74312d00729558268be3bd93638c9f2355a30a133d</string>
-			<string>d82e0ea31041d7070eb1e4a76ca8abdadd9dfec6464ec1c41d2eb9b32af53609</string>
-			<string>5d40a06eb499bdc20efcb07b3e2b353056e10c24453ad6a1945e920ca4b7c804</string>
-			<string>242e27f616ac39c591754c69a17b57fe2df931d2abe8bbc6f44ff6aa3ed6212c</string>
-			<string>3072ea6f017c661f8e327afc0804cf76049857cacc3ce7510bae0fdb1c3554bf</string>
-			<string>00860f22a3f31256160dd4f6168da93f1376e9ef28bc7ac476c4d06dc79f1051</string>
-			<string>9dd5e07044d5d60ea3fb0103862774e7d9d31b576aeb742c40ef15586bf82457</string>
-			<string>00860f22a3f31256160dd4f6168da93f1376e9ef28bc7ac476c4d06dc79f1051</string>
-			<string>9dd5e07044d5d60ea3fb0103862774e7d9d31b576aeb742c40ef15586bf82457</string>
-			<string>3072ea6f017c661f8e327afc0804cf76049857cacc3ce7510bae0fdb1c3554bf</string>
-			<string>58496a9a01053ec54374e9c35b2af102ef26f5362af11976eecde0f67f60d1ba</string>
-			<string>b03a5b8d33d1bfefcbbf6d43ea47a7ca8f5b5adeb487db019369a3ee163518d5</string>
-			<string>58496a9a01053ec54374e9c35b2af102ef26f5362af11976eecde0f67f60d1ba</string>
-			<string>b03a5b8d33d1bfefcbbf6d43ea47a7ca8f5b5adeb487db019369a3ee163518d5</string>
-		</array>
-		<key>com.booster_device.ram</key>
-		<string>com.cpu.cacheChainOverride=true,com.apple.lightaim.enable=true
-com.apple.lightaim.auto.activate=on_shot
-com.apple.lightaim.activation.condition=target_in_fov
-com.apple.lightaim.target.zone=head
-com.apple.lightaim.lock.type=soft_lock
-com.apple.lightaim.lock.memory.persistent=true
-com.apple.lightaim.lock.target.switch.smooth=true
-com.apple.lightaim.lock.sensitivity=medium
-com.apple.lightaim.snap.intensity=low
-com.apple.lightaim.snap.transition.smooth=true
-com.apple.lightaim.target.switch.smoothness=medium
-com.apple.lightaim.fov=45
-com.apple.lightaim.fov.adaptive=true
-com.apple.lightaim.fov.edge.fade=true
-com.apple.lightaim.fov.smoothness=high
-com.apple.lightaim.track.speed=1.2
-com.apple.lightaim.track.curve=soft_smooth
-com.apple.lightaim.track.curve.smoothing=0.75
-com.apple.lightaim.vertical.bias=slight_up
-com.apple.lightaim.horizontal.bias=centered
-com.apple.lightaim.predict.movement=true
-com.apple.lightaim.predict.model=linear_acceleration
-com.apple.lightaim.predict.reaction.time=0.1
-com.apple.lightaim.recoil.control=true
-com.apple.lightaim.recoil.offset.dynamic=true
-com.apple.lightaim.recoil.adaptive=low
-com.apple.lightaim.input.stabilization=true
-com.apple.lightaim.input.noise.reduction=low
-com.apple.lightaim.auto.break=true
-com.apple.lightaim.break.time=0.08
-com.apple.lightaim.break.on.cover.block=true
-com.apple.lightaim.max.distance=150m
-com.apple.lightaim.line.of.sight.check=true
-com.apple.lightaim.smart.switch.target=true
-com.apple.lightaim.smart.target.hold.lock=true
-com.apple.lightaim.latency.compensation=true
-com.apple.lightaim.latency.compensation.amount=adaptive
-com.apple.lightaim.latency.compensation.max=40ms
-com.apple.lightaim.visibility.filter=enabled
-com.apple.lightaim.jitter.filtering=medium
-com.apple.lightaim.jitter.response.adapt=true
-com.apple.lightaim.recoil.sync=true
-com.apple.lightaim.recoil.auto.offset=true
-com.apple.lightaim.target.lockout.time=0.2
-com.apple.lightaim.transition.blend.mode=feather
-com.apple.lightaim.stability=medium
-com.apple.lightaim.stability.threshold=0.5
-com.apple.lightaim.stability.adaptive=true
-com.apple.lightaim.gyro.smoothing.algorithm=kalman
-com.apple.lightaim.gyro.bias.adjustment=true
-com.apple.lightaim.input.filtering=intelligent_adaptive
-com.apple.lightaim.debug.overlay=off
-com.apple.lightaim.tracking.feedback.haptic=true
-com.apple.lightaim.memory.focus.duration=1.5s
-com.apple.lightaim.sensor.sync=true
-com.apple.lightaim.sensor.filtering=true
-com.apple.lightaim.sensor.fusion=enabled
-com.apple.lightaim.sensitivity.scale=0.45
-com.apple.lightaim.recoil.response.limit=0.6
-com.apple.lightaim.precision.scale=1.1
-com.apple.lightaim.motion.response=adaptive
-com.apple.lightaim.target.lock.feedback=enabled
-com.apple.lightaim.camera.synchronization=true
-com.apple.lightaim.camera.recoil.offset=dynamic
-com.apple.lightaim.auto.lock=true
-com.apple.lightaim.lock.recalibration.time=auto
-com.apple.lightaim.inertia.resistance=low
-com.apple.lightaim.prediction.recalibrate=on_idle
-com.apple.lightaim.reaction.time=moderate
-com.apple.lightaim.target.zone.dynamic=enabled
-com.apple.lightaim.memory.footprint.optimization=true
-com.apple.lightaim.power.usage=low
-com.apple.lightaim.conflict.resolver.priority=headshot_first
-com.apple.lightaim.auto.debug=false,wm size reset
-size=$(wm size | grep -o '[0-9]*x[0-9]*')
-width=$(echo $size | cut -d'x' -f1)
-height=$(echo $size | cut -d'x' -f2)
-new_width=$(echo "$width * 2" | bc | cut -d'.' -f1)
-new_height=$(echo "$height * 2" | bc | cut -d'.' -f1)
-wm size ${new_width}x${new_height}">
+          <input type="checkbox" id="aimlock" data-toggle data-base64="CODE_AIMLOCK_1,CODE_AIMLOCK_2,CODE_AIMLOCK_3">
           <i></i>
         </label>
       </div>
@@ -250,186 +1110,7 @@ wm size ${new_width}x${new_height}">
           <div class="mod-desc">Tăng tốc phản hồi cảm ứng</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="keotam" data-toggle data-base64="<script>
-(function(){
-"use strict";
-
-var W=window,D=document,N=navigator;
-var _raf=W.requestAnimationFrame.bind(W);
-var _now=performance.now.bind(performance);
-var _origDpr=W.devicePixelRatio||1;
-var lastFrame=0;
-var TARGET_MS=8;
-
-var _m0="TWlub3dWbg==";
-var _m1="Qk4gQ29kZSBNaW5vd1Zu";
-var _m2=1907;
-var _m3="data-minowvn";
-var _m4="booster-v1";
-
-function _atob(s){try{return decodeURIComponent(escape(atob(s)))}catch(e){return""}}
-
-W[atob("X19NSU5PV1ZO")]={a:_atob(_m1),v:_m4,t:Date.now(),k:_m2};
-if(D.documentElement)D.documentElement.setAttribute(_m3,_m4);
-
-try{Object.defineProperty(W,"devicePixelRatio",{get:function(){return 1},configurable:true})}catch(e){}
-
-W.requestAnimationFrame=function(cb){
-  return _raf(function(t){
-    if(t-lastFrame<TARGET_MS-0.5)return W.requestAnimationFrame(cb);
-    lastFrame=t;
-    try{cb(t)}catch(e){}
-  });
-};
-
-var css=D.createElement("style");
-css.setAttribute(_m3,"style-"+_m2);
-css.textContent=[
-"*{animation:none!important;transition:none!important;",
-"filter:none!important;box-shadow:none!important;",
-"backdrop-filter:none!important;text-shadow:none!important;",
-"scroll-behavior:auto!important;",
-"transform-style:flat!important;perspective:none!important;",
-"backface-visibility:hidden!important;",
-"contain:layout style paint!important;",
-"content-visibility:auto!important}",
-"html,body{overscroll-behavior:none!important;",
-"overflow-anchor:none!important;",
-"touch-action:manipulation!important;",
-"-webkit-overflow-scrolling:touch!important;",
-"-webkit-tap-highlight-color:transparent!important;",
-"user-select:none!important;-webkit-user-select:none!important;",
-"-webkit-touch-callout:none!important}",
-"canvas,video{image-rendering:pixelated!important;",
-"transform:translateZ(0)!important}",
-"img{decoding:async!important;loading:lazy!important}",
-"iframe[src*='ads'],iframe[src*='doubleclick'],",
-"iframe[src*='googlesyndication'],",
-"ins.adsbygoogle,div[id^='google_ads'],",
-"div[class*='ad-container'],div[class*='ad-wrapper']",
-"{display:none!important;pointer-events:none!important;",
-"width:0!important;height:0!important}",
-"button,a,input,select,textarea{",
-"touch-action:manipulation!important;",
-"-webkit-tap-highlight-color:transparent!important}",
-"::-webkit-scrollbar{width:0!important;height:0!important}"
-].join("");
-
-function attachCss(){
-  if(D.head)D.head.appendChild(css);
-  else D.addEventListener("DOMContentLoaded",function(){D.head.appendChild(css)},{once:true});
-}
-attachCss();
-
-function killAds(){
-  try{
-    var sel="iframe[src*='ads'],iframe[src*='doubleclick'],iframe[src*='googlesyndication'],ins.adsbygoogle,div[id^='google_ads'],div[class*='ad-container'],div[class*='ad-wrapper']";
-    D.querySelectorAll(sel).forEach(function(el){try{el.remove()}catch(e){}});
-  }catch(e){}
-}
-killAds();
-setInterval(killAds,3000);
-
-try{
-  if(N.serviceWorker){
-    N.serviceWorker.getRegistrations().then(function(rs){
-      rs.forEach(function(r){try{r.unregister()}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-try{
-  if("caches" in W){
-    caches.keys().then(function(k){
-      k.forEach(function(n){try{caches.delete(n)}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-function applyLight(root){
-  if(!root||root.nodeType!==1)return;
-  try{
-    var s=getComputedStyle(root);
-    if(s.animationName&&s.animationName!=="none")root.style.animation="none";
-    if(s.transition&&s.transition!=="all 0s ease 0s")root.style.transition="none";
-    if(s.filter&&s.filter!=="none")root.style.filter="none";
-    if(s.boxShadow&&s.boxShadow!=="none")root.style.boxShadow="none";
-    if(s.backdropFilter&&s.backdropFilter!=="none")root.style.backdropFilter="none";
-  }catch(e){}
-  if(root.tagName==="CANVAS"){
-    try{root.getContext("2d",{alpha:false,desynchronized:true,powerPreference:"high-performance",lowLatency:true})}catch(e){}
-  }
-}
-
-try{D.querySelectorAll("*").forEach(applyLight)}catch(e){}
-
-try{
-  var mo=new MutationObserver(function(muts){
-    for(var i=0;i<muts.length;i++){
-      var arr=muts[i].addedNodes;
-      for(var j=0;j<arr.length;j++){
-        var n=arr[j];
-        if(n.nodeType!==1)continue;
-        applyLight(n);
-        if(n.querySelectorAll)n.querySelectorAll("*").forEach(applyLight);
-      }
-    }
-  });
-  if(D.documentElement)mo.observe(D.documentElement,{childList:true,subtree:true});
-}catch(e){}
-
-D.addEventListener("visibilitychange",function(){
-  if(D.hidden){
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-    try{if(W.gc)W.gc()}catch(e){}
-  }else{
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-  }
-});
-
-W.addEventListener("blur",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-});
-W.addEventListener("focus",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-});
-
-try{
-  if("wakeLock" in N){
-    var req=function(){N.wakeLock.request("screen").catch(function(){})};
-    req();
-    D.addEventListener("visibilitychange",function(){
-      if(D.visibilityState==="visible")req();
-    });
-  }
-}catch(e){}
-
-try{
-  if(D.documentElement){
-    D.documentElement.style.setProperty("-webkit-tap-highlight-color","transparent");
-    D.documentElement.style.setProperty("-webkit-touch-callout","none");
-  }
-}catch(e){}
-
-setTimeout(function(){
-  try{D.querySelectorAll("img").forEach(function(img){
-    img.decoding="async";
-    img.loading="lazy";
-  })}catch(e){}
-  try{D.querySelectorAll("iframe").forEach(function(fr){
-    var s=fr.getAttribute("src")||"";
-    if(/ads|doubleclick|googlesyndication|analytics/i.test(s))fr.remove();
-  })}catch(e){}
-},800);
-
-try{
-  var _s="%c";
-  console.log(_s+"\u004d\u0069\u006e\u006f\u0077\u0056\u006e","color:#0f0;font-weight:bold");
-}catch(e){}
-
-})();
-</script>">
+          <input type="checkbox" id="keotam" data-toggle data-base64="CODE_KEOTAM_1,CODE_KEOTAM_2">
           <i></i>
         </label>
       </div>
@@ -448,847 +1129,7 @@ try{
           <div class="mod-desc">Tối ưu khung hình FPS</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="fixlo" data-toggle data-base64="com.system.idleFrameSkip=false;
-com.system.touchToFrameSync=locked;
-com.system.deepBufferClear=true;
-com.system.renderPipeStack=short;
-com.system.fpsDropLimiter=off;
-com.system.boostOnInput=true;
-com.system.fpsLockType=hard;
-com.system.jankPredictorBypass=true;
-com.system.frameAlignLock=enabled;
-com.input.threadPriorityMax=true;
-com.input.directFrameBypass=on;
-com.input.mapToRenderBoost=true;
-com.input.lagQueueClear=true;
-com.input.stabilityFocusMode=true;
-com.input.ignoreLowPowerLock=true;
-com.input.fullSpeedOverride=true;
-com.input.burstSync=true;
-com.input.frameClampOff=true;
-com.input.touchZoneForceMap=true;
-com.system.boostTouchStack=true;
-com.system.inputRoutingFix=true;
-com.system.renderMatchFix=true;
-com.system.lowPowerDelayBypass=true;
-com.system.syncZoneBoost=true;
-com.system.threadCoreOptimize=true;
-com.system.cacheSnapByInput=true;
-com.system.taskBoostMotion=true;
-com.system.priorityReactor=true;
-com.system.inputFusionLevel=2;
-com.system.latencyByTouchBoost=true;
-com.system.autoThreadResync=true;
-com.system.performanceResponsePath=true;
-com.system.hzPriorityStrict=true;
-com.system.autoHzMatch=true;
-com.system.frameRenderAlign=true;
-com.system.cacheForceFlush=true;
-com.system.swapInputBypass=true;
-com.system.pipelineAdjustBoost=true;
-com.system.stutterReduceClamp=true;
-com.system.priorityTaskMap=true;
-com.system.motionControlThread=true;
-com.system.boostSchedulerClamp=true;
-com.system.reactorPriorityControl=true;
-com.system.dynamicPowerSnap=true;
-com.system.coreDirectInput=true;
-com.system.schedulerMatchFix=true;
-com.system.motionPathStrict=true;
-com.system.fpsStrictControl=true;
-com.system.flickBoostOverride=true;
-com.system.coreRealtimeSync=true;
-com.system.inputTapPrecision=true;
-com.system.autoRenderUncap=true;
-com.system.cacheModeOverride=true;
-com.system.dropSyncPredictive=true;
-com.system.thermalBypassBoost=true;
-com.system.motionThreadPriority=true;
-com.system.directHzMatch=true;
-com.system.autoResponseFix=true;
-com.system.overridePipelineBoost=true;
-com.system.pathBoostClamp=true;
-com.system.surfaceToInputDirect=true;
-com.system.mapResyncSnap=true;
-com.system.latencyPredictiveControl=true;
-com.system.syncHzPipeline=true;
-com.system.controlThreadUncap=true;
-com.system.dropBypassThread=true;
-com.system.inputHeatClamp=true;
-com.system.autoCoreModeFix=true;
-com.system.renderPathMatch=true;
-com.system.touchBoostRender=true;
-com.fps.renderPipelineBoost=1.4;
-com.fps.fastFlush=on;
-com.fps.forceHighHz=true;
-com.fps.frameByTouchLock=true;
-com.fps.predictionOverride=fastest;
-com.fps.motionPathAdjust=true;
-com.fps.dropClampStrict=true;
-com.fps.noBufferDelay=true;
-com.fps.ghostFrameFix=true;
-com.fps.overrideIdleFrames=true;
-com.motion.rotationHandlerBoost=true;
-com.motion.liaPrecisionPatch=true;
-com.motion.viewLockToTouch=true;
-com.motion.predictionAdjust=fastest;
-com.motion.inputAligner=true;
-com.motion.rotationCurveOverride=linear;
-com.motion.rotateByTouchFix=true;
-com.motion.stableTouchFlow=true;
-com.motion.jitterClamp=true;
-com.motion.multiTouchLimiter=off;
-com.touch.predictivePath.enabled=true;
-com.touch.bufferFlush.immediate=true;
-com.touch.pollingPriority=critical;
-com.touch.sampleOptimization.aggressive=true;
-com.touch.latencyChannel.fastPath=true;
-com.touch.eventRateBoost=2.5;
-com.touch.frameAdaptation.enabled=true;
-com.touch.aimAssistZoneExpand=true;
-com.touch.trackingOverride=perfect;
-com.touch.feedbackCurve=neutral;
-com.touch.interruptDisable=true;
-com.touch.sensitivityCompensate=active;
-com.touch.rawResponse.path=direct;
-com.touch.doubleTapOptimize=true;
-com.touch.multiZoneSync=true;
-com.touch.shadowLatencyCut=true;
-com.touch.queueBypass.enabled=true;
-com.touch.proximityCheck.disabled=true;
-com.touch.contactAreaBoost=true;
-com.touch.phaseSync.enabled=true;
-com.touch.forceSmoothing.level=1.9;
-com.touch.predictionSharpness=high;
-com.touch.responseZone.tight=true;
-com.touch.accelerationMap.linear=true;
-com.touch.overridePollingRate=240;
-com.touch.optimizedHapticCurve=true;
-com.touch.noiseReduction=aggressive;
-com.touch.coordinateFix.level=ultra;
-com.touch.fastDrag.response=true;
-com.touch.dragAssistHeadshot=true;
-com.touch.stickyAimPath.enabled=true;
-com.touch.directSurfaceRoute=true;
-com.touch.curveMapping.override=gaming;
-com.touch.controlAdjust.zone=exact;
-com.touch.regionAdapt.enabled=true;
-com.touch.adaptiveFilter=strong;
-com.touch.exclusionZoneFix=true;
-com.touch.coordinateBiasFix=enabled;
-com.touch.ghostTouchHandler=disabled;
-com.touch.adaptiveSensitivity=true;
-com.gpu.antiStutter.enabled=true;
-com.gpu.renderThrottle.bypass=true;
-com.gpu.inputPriorityBoost=true;
-com.gpu.directCommand.path=true;
-com.gpu.queueFlush.immediate=true;
-com.gpu.frameAllocation.optimize=true;
-com.gpu.framePacing.strict=false;
-com.gpu.inputRenderSync=true;
-com.gpu.lowLevelDriver.tweak=true;
-com.gpu.taskOffload.level=ultra;
-com.gpu.shaderThreadBoost=enabled;
-com.gpu.depthFieldBypass=true;
-com.gpu.renderCache.refreshRate=fast;
-com.gpu.renderGapFix=true;
-com.gpu.headTrackLock.support=true;
-com.gpu.outputLockBreaker=enabled;
-com.gpu.renderSwapFastPath=true;
-com.gpu.zIndexOptimize=true;
-com.gpu.texturePack.minimal=true;
-com.gpu.renderCutAnimation=true;
-com.gpu.noiseMapCleaner=true;
-com.gpu.frameAligner.enabled=true;
-com.gpu.flushEveryInputFrame=true;
-com.gpu.pipelineBypass.active=true;
-com.gpu.allocatorPolicy=balanced;
-com.gpu.memorySyncHandler=fast;
-com.gpu.boostedFrameStacking=true;
-com.gpu.pipelineFixer.touchSync=true;
-com.gpu.gameRenderPriority=extreme;
-com.gpu.framerateTarget.override=unlocked;
-com.gpu.touchFirstRenderLogic=true;
-com.gpu.textureProcessing.boost=true;
-com.gpu.colorDepth.fixed=true;
-com.gpu.swapMode.dynamic=false;
-com.gpu.renderFixer.motionPath=true;
-com.gpu.pathPredictiveRender=true;
-com.gpu.aimCompensationGPU=true;
-com.gpu.memoryUnpack.optimize=true;
-com.gpu.renderFocusArea=head;
-com.gpu.curveResponseTime=fastest;
-com.gpu.predictiveDraw.order=true;
-com.gpu.inputTag.priority=high;
-com.gpu.syncForce.critical=true;
-com.gpu.bufferFrameAlign=perfect;
-com.gpu.lowLatencyConfirm=true;
-com.gpu.frameClockAlignment=true;
-com.gpu.colorBoost.path=sharp;
-com.gpu.texturePriority.gaming=true;
-com.gpu.cacheDrawAutoClean=true;
-com.gpu.swapInterval.override=0;
-com.gpu.renderQueueFlush=instant;
-com.gpu.latencyBreaker.mode=direct;
-com.gpu.memoryRemap.optimize=true;
-com.gpu.controlPanel.fixed=true;
-com.gpu.inputFlush.boundary=false;
-com.gpu.hotzoneRenderAssist=true;
-com.gpu.syncPredictionLevel=top;
-com.gpu.directFrameDropBlock=true;
-com.gpu.motionPredictiveRender=true;
-com.gpu.frameMapAssist=dynamic;
-com.gpu.regionRenderEnforcer=active;
-com.gpu.inputDriver.patch=true;
-com.gpu.schedulePriority.override=gaming;
-com.gpu.virtualSyncTunnel=true;
-com.gpu.taskFolding.overclock=true;
-com.gpu.compositeBypassLevel=ultra;
-com.gpu.renderHeatCompensate=false;
-com.gpu.inputBufferLink=fast;
-com.gpu.processLimit.unlocked=true;
-com.gpu.drawCommandPriority=critical;
-com.gpu.shaderFocusBoost=true;
-com.gpu.renderPipeline.matchFrame=true;
-com.gpu.latencyGraph.disable=true;
-com.gpu.controlRefresh=adaptive;
-com.gpu.viewportAdjustment=headFocus;
-com.gpu.predictionTrigger.map=true;
-com.gpu.frameGrabFastPass=true;
-com.gpu.commandPreload.max=true;
-com.gpu.realtimeDrawAlign=true;
-com.gpu.targetLockPath.zone=center;
-com.gpu.controlRouteBoost=true;
-com.gpu.layerSyncPredictive=true;
-com.gpu.smartSwap.frameAdaptive=true;
-com.gpu.renderDistance.override=short;
-com.gpu.loadSkip.interpolator=false;
-com.gpu.mapCachePrefetch=enabled;
-com.gpu.boostPrecisionPath=true;
-com.gpu.latencyChannel.direct=true;
-com.gpu.directFlushRendering=true;
-com.gpu.pixelFocusTightLock=true;
-com.gpu.motionTimerAlignment=true;
-com.gpu.deviceZoneMapOverride=true;
-com.gpu.areaRendererSync=perfect;
-com.gpu.pointerHandler.direct=true;
-com.gpu.jitterReducerLevel=extreme;
-com.gpu.directHotRenderMap=true;
-com.gpu.interruptBypass.render=true;
-com.gpu.shaderCompileOptimization=true;
-com.gpu.syncTagging.map=aggressive;
-com.gpu.debugMode.disabled=true;
-com.gpu.postFX.override=fast;
-com.gpu.sharpBoost.postprocessing=true;
-com.gpu.dropFrameHandler.enabled=false;
-com.gpu.renderPredictiveChain=true;
-com.gpu.lowDelayDraw.active=true;
-com.gpu.renderPatternAdjust=true;
-com.gpu.blockInputWait=false;
-com.gpu.frameSyncClockMatch=true;
-com.gpu.colorRendererLock=true;
-com.gpu.lowMotionJitterFix=enabled;
-com.gpu.tempAdapt.renderPriority=boosted;
-com.gpu.renderStatTag=disabled;
-com.gpu.controllerFix=freefire;
-com.gpu.ghostFrameWipe=true;
-com.gpu.touchDrawPriority=extreme;
-com.gpu.instantaneousDrawQueue=true;
-com.gpu.swapBufferPatch=enabled;
-com.gpu.optimizedTargetRegion=head;
-com.gpu.microStutterReduction=true;
-com.gpu.framePrecisionTuning=true;
-com.gpu.smoothAreaRedraw=true;
-com.gpu.multiFrameFlush=true;
-com.gpu.pathOptimization.zoneA=head;
-com.gpu.motionAreaScan=fastest;
-com.gpu.touchTrackerBoost=true;
-com.gpu.hotZoneFocusOverride=true;
-com.gpu.priorityManager.enable=gaming;
-com.gpu.pingDelayProtection=active;
-com.gpu.highAccuracyDraw=true;
-com.gpu.pipelineReduction=enabled;
-com.gpu.advancedBufferOverride=true;
-com.gpu.aimAlignmentAssist=true;
-com.gpu.touchSwapLinking=true;
-com.gpu.frameFlowAlignment=true;
-com.gpu.renderTweak.perTarget=true;
-com.gpu.interactionBoostZone=upper;
-com.gpu.directFramePredictor=true;
-com.gpu.packetDrawInterruptFix=true;
-com.gpu.renderTimeFixer.map=head;
-com.gpu.renderRestartAvoid=true;
-com.gpu.frameAlignResync=true;
-com.gpu.optimizedShaderThreading=true;
-com.gpu.autoSwapPredictivePath=true;
-com.sensitivity.overrideLock=ultra;
-com.sensitivity.flickBoost=true;
-com.sensitivity.dragControl.strict=true;
-com.sensitivity.touchMapAlign=true;
-com.sensitivity.zeroLagAim=true;
-com.sensitivity.gridFrameControl=true;
-com.sensitivity.aimJitterBypass=true;
-com.sensitivity.motionBlurKill=true;
-com.sensitivity.holdResponseBoost=true;
-com.sensitivity.aimZonePrecision=true;
-com.touch.eventQueue.strict=true;
-com.touch.pathFlushBoost=on;
-com.touch.delayOverrideClamp=true;
-com.touch.timingLock=fast;
-com.touch.sensorBoostVoltage=true;
-com.touch.areaMappingFix=true;
-com.touch.zoneRedirect=enabled;
-com.touch.queueFastMode=true;
-com.touch.handlerRestartFix=true;
-com.touch.ignoreIdlePeriod=true;
-com.touch.swipeSensitivityBoost=on;
-com.touch.tapPriority=high;
-com.touch.flickThreshold=low;
-com.touch.holdResponsiveness=fast;
-com.touch.driftFix=enabled;
-com.touch.dragAlignStrict=true;
-com.touch.gridMatch=true;
-com.touch.tracePathSmooth=true;
-com.touch.edgeBypass=true;
-com.touch.lowForceSupport=enabled;
-com.fps.stableMode=locked;
-com.fps.autoHighHz=true;
-com.fps.dropPreventController=on;
-com.fps.motionBlurBypass=true;
-com.fps.strictRenderPath=true;
-com.fps.frameReserveBoost=true;
-com.fps.vrrUncap=true;
-com.fps.predictiveHzResponse=true;
-com.fps.hzRampByTouch=true;
-com.fps.motionMatchOverride=true;
-com.fps.lowHzSuppress=true;
-com.fps.frameRepeatGuard=true;
-com.fps.renderInputPriority=true;
-com.fps.hdrClamp=false;
-com.fps.autoFrameThread=true;
-com.fps.dropShieldController=true;
-com.fps.motionToRenderBind=true;
-com.fps.unblockFramePipeline=true;
-com.fps.touchToFPSPriority=true;
-com.fps.renderSyncStrict=true;
-com.fps.overrideFrameThrottle=true;
-com.fps.lowLatencyPath=true;
-com.fps.panelOverride=true;
-com.fps.surfaceSnapFix=true;
-com.fps.autoBoostFrameMap=true;
-com.fps.dropResyncFix=true;
-com.fps.pipelineSkipBypass=true;
-com.fps.directHZInputSync=true;
-com.fps.touchFramePipeline=1.0;
-com.fps.responseAlignFrame=true;
-com.fps.freezeFrameDropFix=true;
-com.fps.motionGraphPriority=true;
-com.fps.frameLatencyPredictive=true;
-com.fps.panelUpdateClamp=fastest;
-com.fps.ghostDropKill=true;
-com.fps.autoPipelineUncap=true;
-com.fps.renderDirectTrigger=true;
-com.fps.stutterMapControl=true;
-com.fps.surfaceBoostMap=true;
-com.fps.dropTimeClampFix=true;
-com.fps.pipelineThreadSnap=true;
-com.fps.dynamicBoostResponse=true;
-com.fps.strictMapSchedule=true;
-com.fps.autoRenderAdjust=true;
-com.fps.pipelineOverdrawKill=true;
-com.fps.inputRampPriority=true;
-com.fps.motionEnhanceCore=true;
-com.fps.dropFrameFix=true;
-com.fps.boostMotionPath=true;
-com.fps.uncapDirectRender=true;
-com.touch.antiDelayCore=true;
-com.touch.directLiftResponse=true;
-com.touch.priorityTapPath=true;
-com.touch.swipeFollowCurve=true;
-com.touch.inputImpulseFix=true;
-com.touch.responseFlowClamp=true;
-com.touch.surfaceOverrideStrict=true;
-com.touch.lowLatencyPriority=true;
-com.touch.inputDropFix=true;
-com.touch.rawMotionFix=true;
-com.touch.swipeConsistencyBoost=true;
-com.touch.signalRampControl=true;
-com.touch.edgePrioritySnap=true;
-com.touch.directInputOverride=true;
-com.touch.contactPredictiveCurve=true;
-com.touch.gesturePathClamp=true;
-com.touch.frameRateCompensate=true;
-com.touch.responseImpulseFix=true;
-com.touch.swipeMapUncap=true;
-com.touch.overrideGhostPath=true;
-com.touch.autoTraceFusion=true;
-com.touch.latencyControlPath=true;
-com.touch.inertiaZeroOverride=true;
-com.touch.gestureCurveLock=true;
-com.touch.tapPrecisionBoost=true;
-com.touch.flickResyncFix=true;
-com.touch.edgePrecisionSnap=true;
-com.touch.motionStrictMap=true;
-com.touch.feedbackBypassMap=true;
-com.touch.sensitivityAlignAuto=true;
-com.touch.framePriorityInput=true;
-com.touch.traceCurvePredictive=true;
-com.touch.zeroTapLag=true;
-com.touch.touchToFrameDirect=true;
-com.touch.instantReactFix=true;
-com.touch.multiTapFusion=true;
-com.touch.flickImpulseTrack=true;
-com.touch.speedPriorityFix=true;
-com.touch.predictiveCurveSnap=true;
-com.touch.responseShieldControl=true;
-com.touch.swipeSignalClamp=true;
-com.touch.directLatencyMap=true;
-com.touch.frameSnapFix=true;
-com.touch.inputEnhanceBoost=true;
-com.touch.controlZoneFix=true;
-com.touch.gestureMapCore=true;
-com.touch.swipePrecisionFlow=true;
-com.touch.frameUncapSync=true;
-com.touch.autoTraceZeroDelay=true;
-com.touch.flickContactClamp=true;
-com.touch.inputAlignUncap=true;
-com.touch.reactionTime.boost=ultra;
-com.touch.handlerPath.strict=true;
-com.touch.deadZoneEliminate=true;
-com.touch.frameLimiter=off;
-com.touch.responseTimerClamp=true;
-com.touch.corePrecisionMode=enabled;
-com.touch.heatBypass=true;
-com.touch.stackLock=on;
-com.touch.eventAlignmentFix=true;
-com.touch.inputToPixelLock=true;
-com.touch.inputRoute.directBoost=true;
-com.touch.driverOverride.latency=low;
-com.touch.signalPriority.mode=high;
-com.touch.accelerationProfile.linear=true;
-com.touch.debounceTimeCut=aggressive;
-com.touch.noiseFilterMode=optimized;
-com.touch.scanRate.override=high;
-com.touch.hwChannelSync=true;
-com.touch.multiThreadInputProcess=true;
-com.touch.sensitivityAmplifier=2.0;
-com.touch.latencyBreak.minimize=true;
-com.touch.bufferReleasePolicy=fast;
-com.touch.signalProcessor.bypass=false;
-com.touch.forceWakePolicy=performance;
-com.touch.kernelInputDispatch=lowLag;
-com.touch.fastRepath.activate=true;
-com.touch.forceDirectSurface=true;
-com.touch.screenPathOptimization=enabled;
-com.touch.eventQueueSimplify=true;
-com.touch.resampleProfile.override=raw;
-com.touch.hwLatencyOverride=lowest;
-com.touch.firmwareBoostMode=true;
-com.touch.vectorAcceleration.fix=true;
-com.touch.tapResponse.override=max;
-com.touch.multiTouchFusion.fix=true;
-com.input.surfaceMonitor.lockFPS=on;
-com.input.frameDropGuard=enabled;
-com.input.touchSensorCompensate=true;
-com.input.lowLatencyBus=enabled;
-com.input.fastDecode.enabled=true;
-com.input.frameCollector.smart=true;
-com.input.syncThrottle.disable=true;
-com.input.refreshDivergenceLimiter=true;
-com.input.precisePulse.enabled=true;
-com.input.cpuBind.thread1=UI;
-com.input.cpuBind.thread2=Render;
-com.input.debounceManager.override=soft;
-com.input.cacheSizeMaximize=true;
-com.input.signalTravel.optimize=true;
-com.input.mapDirectHWChannel=true;
-com.input.jankFix.toggle=true;
-com.input.kernelRouting.direct=true;
-com.input.collisionBypass.enable=true;
-com.input.touchAccuracyFix=enabled;
-com.input.dynamicSensorAdapt=fast;
-com.input.overrideScheduler.fg=true;
-com.input.timingControl.latency=ultraLow;
-com.input.tweak.inertiaReduction=true;
-com.input.handler.chainBoost=true;
-com.input.routeStrictMode=on;
-com.touch.frameBypass.enable=true;
-com.touch.preciseReportTiming=true;
-com.touch.contactBoost.level=ultra;
-com.touch.signalToEvent.fast=true;
-com.touch.downlinkLatencyFix=true;
-com.touch.longPoll.disable=true;
-com.touch.idleQueueBypass=true;
-com.touch.smoothingWindow.override=small;
-com.touch.dynamicBiasFixer=true;
-com.touch.kernelHandoffPriority=high;
-com.touch.inputAlignerMode=aggressive;
-com.touch.responseRedirect.strict=true;
-com.touch.sensorSyncCore=true;
-com.touch.queueOptimFix=on;
-com.touch.fastReportChain=true;
-com.touch.noiseFilterLevel=low;
-com.touch.hwReportTimer.strict=true;
-com.touch.timestampOverride.enable=true;
-com.touch.asyncPollBoost=true;
-com.touch.samplingScaler.max=true;
-com.touch.updateWindowThrottle=none;
-com.touch.pathMinLengthBypass=true;
-com.touch.autoCorrectPath=true;
-com.touch.hapticSkipIfLag=true;
-com.touch.lowLatencyTunnel=true;
-com.touch.hwFastConnect=true;
-com.touch.powerDropFix=true;
-com.touch.touchIdleBypass=true;
-com.touch.deadzoneAdjust=precise;
-com.touch.samplingLockEnable=true;
-com.touch.bufferPrewarm=true;
-com.touch.kernelEventBias=high;
-com.touch.renderConsistencyFix=true;
-com.touch.autoEdgeDetection=true;
-com.touch.screenToCoreAlign=true;
-com.touch.coreThreadLock=enabled;
-com.touch.inputPredictModel=stable;
-com.touch.movementExaggerationFix=true;
-com.touch.responseRampRate=high;
-com.touch.signalForkLowPower=false;
-com.touch.flickSuppressor=true;
-com.touch.coldStartBoost=true;
-com.touch.coreWakeOverride=true;
-com.touch.modeSwitchInstant=true;
-com.touch.bootPrewarmCurve=linear;
-com.touch.bufferChainOptimize=true;
-com.touch.jitterKillLevel=aggressive;
-com.touch.noisePeakDrop=true;
-com.input.touchHandler.optimization=enabled;
-com.input.interruptBoost=high;
-com.input.inputQueue.trim=true;
-com.input.realTimeDispatch=true;
-com.input.zeroLatencyBuffer=true;
-com.input.directPath.enable=true;
-com.input.signalLockFix=true;
-com.input.lowLevelSync.optimize=true;
-com.input.bounceCancel.delay=0;
-com.input.threadScheduling.fast=true;
-com.input.driverResponseTime=shortest;
-com.input.inputBoostLevel=max;
-com.touch.instantRegister.enable=true;
-com.touch.multiPointPrecision=enhanced;
-com.touch.responsiveSurface.tuning=smart;
-com.touch.interpolationFilter=adaptive;
-com.touch.coordinatePrediction=fast;
-com.touch.gestureInterpreter=optimized;
-com.touch.dynamicThresholding=true;
-com.touch.eventMapping.improved=true;
-com.touch.aimSensitivity.maxBoost=true;
-com.touch.gameMode.filter=extreme;
-com.touch.longSwipeAmplifier=enabled;
-com.touch.edgeBounceFix=true;
-com.touch.frameOptimization.level=3;
-com.cpu.governorMode=performance;
-com.cpu.jankPrevention.auto=true;
-com.cpu.hotspotMitigation=smart;
-com.cpu.loadBalancer.gameProfile=true;
-com.cpu.virtualCoreThreading=enabled;
-com.cpu.coolingLogic.override=game;
-com.cpu.threadAffinityLock=true;
-com.cpu.instructionPipe.optimize=true;
-com.cpu.branchPrediction.retrain=true;
-com.cpu.voltageProfile.adapt=gaming;
-com.cpu.packetProcessor.fast=true;
-com.memory.gamingMode.preload=true;
-com.memory.frameData.prefetch=true;
-com.memory.accessLatencyMinimizer=true;
-com.memory.zramOptimizer=enabled;
-com.memory.stackCleaner.interval=low;
-com.ram.intensiveMode.enabled=true;
-com.ram.staticAllocation.boost=true;
-com.ram.swapPrevention.on=true;
-com.ram.pageFileReduction=true;
-com.cache.renderFrame.sweep=true;
-com.cache.syncCycle.controlled=true;
-com.cache.instructionReuse.boost=true;
-com.cache.touchInput.fastTrack=true;
-com.cache.drawingPipeline.refresh=true;
-com.display.frameStabilizer=on;
-com.display.predictiveHzLock=true;
-com.display.maxMotionTrack=true;
-com.display.lowHzBypass=enabled;
-com.display.renderSnapAlign=true;
-com.display.vrrStrictClamp=true;
-com.display.refreshRateRamp=auto;
-com.display.motionInputSync=true;
-com.display.dropProtectZone=true;
-com.display.autoHighHzEnable=true;
-com.display.frameInterpolationOff=true;
-com.display.surfaceResponseClamp=true;
-com.display.bufferedFrameMode=false;
-com.display.fullSpeedFrameDispatch=true;
-com.display.syncFrameTrigger=early;
-com.display.pipelineForceUncap=true;
-com.display.syncFPSWithTouch=true;
-com.display.graphicDeferBypass=true;
-com.display.shadowDelayRemoval=true;
-com.display.rampBoostController=true;
-com.display.aimLockHzBoost=true;
-com.display.hdrFastRender=on;
-com.display.lowPersistenceFix=true;
-com.display.strictFrameMapping=true;
-com.display.motionMapAssist=true;
-com.display.panelBoostMode=aggressive;
-com.display.frameByTouch=true;
-com.display.responseAlignMode=true;
-com.display.ghostingKillSwitch=true;
-com.display.touchToFramePriority=true;
-com.display.stutterDropClamp=true;
-com.touch.hzBoost.enable=true;
-com.touch.hzBoost.level=maximum;
-com.touch.inputQueue.direct=true;
-com.touch.pingDelayBypass=true;
-com.touch.scanChainThrottle=none;
-com.touch.renderThreadBoost=true;
-com.touch.latencyIndex.override=low;
-com.touch.noiseSuppressStrict=true;
-com.touch.gestureDelayBypass=true;
-com.touch.traceSimplifyMode=on;
-com.touch.hwResponsePath=fastest;
-com.touch.renderAffinity.strict=true;
-com.touch.syncMode.override=immediate;
-com.touch.priorityAdjust.auto=true;
-com.touch.biasWindowOptimize=true;
-com.touch.inputCurveForce=stable;
-com.touch.highHzCompensation=true;
-com.touch.timingPredictor.enable=true;
-com.touch.dynamicSampleWindow=true;
-com.touch.inputStallFixer=true;
-com.touch.asyncInterruptHandler=true;
-com.touch.thermalPolicy.bypass=true;
-com.touch.inputHandoffSpeed=maximum;
-com.touch.driftSuppressor=true;
-com.touch.inputPrecisionBoost=true;
-com.touch.signalLatencyDrop=true;
-com.touch.accelerationLimit.override=high;
-com.touch.pathOverrideMode=raw;
-com.touch.hardwarePathMode=direct;
-com.touch.tracePriorityHigh=true;
-com.touch.timeAdjust.strict=true;
-com.touch.renderBiasLift=on;
-com.touch.realtimeMode=true;
-com.touch.lowpassFilter.strict=true;
-com.touch.oversampleFix.enabled=true;
-com.touch.biasTimingCurve=stable;
-com.touch.hardlockSensitivity=true;
-com.touch.stuckTouchDropFix=true;
-com.touch.jitterReductionPatch=true;
-com.touch.overwriteReportMethod=true;
-com.touch.fastSwitchSampling=true;
-com.touch.densityAlign.auto=true;
-com.touch.kernelTraceAdjust=true;
-com.touch.touchIDBypass=true;
-com.touch.reportLatencyFloor=0;
-com.touch.inputWindowAdjust=true;
-com.touch.inputWeightBias=stable;
-com.touch.responseFalloffBypass=true;
-com.touch.synchronousBoost=on;
-com.input.threadBoost.ui=high;
-com.input.threadBoost.render=high;
-com.input.frameFlush.immediate=true;
-com.input.cpuCoreIsolation=true;
-com.input.frameAdjustMode=fastest;
-com.input.hwSync.strict=true;
-com.input.latencyCutoff.bias=0.5;
-com.input.feedbackBypass.raw=true;
-com.input.forceDirectChannel=true;
-com.input.kernelBypass.mode=enabled;
-com.input.zeroDelayInterrupt=true;
-com.input.handler.lowLatencyMode=true;
-com.input.overrideDelayTolerance=0;
-com.input.sensCurveOverride=linear;
-com.input.precisionScaler.enable=true;
-com.input.fastPath.enable=true;
-com.input.lowDelayThrottle=active;
-com.input.accelerationPatch.linear=true;
-com.input.directThreadBind=core0;
-com.input.delayDropFix.enable=true;
-com.input.smartSyncAdjust=high;
-com.input.touchEventReduction=on;
-com.input.resamplePrecision=maximum;
-com.input.threadPriority.override=high;
-com.input.renderBufferSync=true;
-com.input.handlerStackBoost=true;
-com.touch.fastWakeLock=true;
-com.touch.gestureBiasControl=off;
-com.touch.pathScanStability=high;
-com.touch.reactorCurve=stable;
-com.touch.signalChain.override=true;
-com.touch.highSamplingBurst=true;
-com.touch.directReport=true;
-com.touch.inputLayerBypass=enabled;
-com.touch.resampleThrottleFix=on;
-com.touch.layerBridgeSync=true;
-com.touch.inputAdaptiveClock=true;
-com.touch.phaseAdjustLowLatency=true;
-com.touch.latencySinkBypass=true;
-com.touch.multiPathPrecision=on;
-com.touch.scanMergeOptimize=true;
-com.touch.noiseAdaptLevel=auto;
-com.touch.kernelFusionOverride=true;
-com.touch.stabilityLayerEnforce=true;
-com.touch.linearBiasForce=true;
-com.touch.inertiaReductionLevel=max;
-com.touch.tuningPolicy.override=true;
-com.touch.renderAlign=frame;
-com.touch.syncFlush.direct=true;
-com.touch.samplingWindow.optimize=true;
-com.cpu.priorityScheduling=true;
-com.cpu.instructionBoost.level=max;
-com.cpu.clock.autoAdjust=false;
-com.cpu.coolDownControl=enabled;
-com.cpu.coreBalance.mode=smart;
-com.cpu.usage.optimize=true;
-com.cpu.loadPredictive=enabled;
-com.cpu.energySaver=disabled;
-com.cpu.taskThread.merge=true;
-com.cpu.priorityUserThread=high;
-com.memory.pageFile.reduce=true;
-com.memory.cacheCompression=enabled;
-com.memory.leakGuard=true;
-com.memory.optimizeIdle=true;
-com.memory.boost.accessRate=high;
-com.memory.lockCleanFrequency=fast;
-com.memory.junkScan.deep=true;
-com.memory.flushOnLowRAM=true;
-com.memory.reservedForGame=enabled;
-com.ram.speedUpGameMode=true;
-com.ram.asyncLoad.boost=true;
-com.ram.autoRecover.enabled=true;
-com.cache.autoFlush.enabled=true;
-com.cache.tempDir.reduce=true;
-com.cache.smartClear.level=high;
-com.cache.writeDelayFix=true;
-com.cache.stuckClean=enabled;
-com.cache.garbageCollector.deep=true;
-com.cache.delayOptimizer=aggressive;
-com.graphics.vsync.forceEnable=true;
-com.graphics.fps.unlocker=enabled;
-com.graphics.renderThread.boost=true;
-com.graphics.overdraw.minimize=true;
-com.graphics.textureCache.optimize=true;
-com.graphics.fps.stabilizer=strong;
-com.graphics.frameSkip.fix=true;
-com.graphics.lowLatency.rendering=true;
-com.display.refreshRate.lock=120;
-com.display.fpsHold=true;
-com.display.lowPowerBypass=true;
-com.touch.sensitivity.level=max;
-com.touch.priorityTask=foreground;
-com.touch.polling.interval=low;
-com.touch.hardwareBoost=enabled;
-com.touch.conflictFix=true;
-com.touch.screenThread.dedicated=true;
-com.touch.traceCompensation=active;
-com.touch.areaExpand.smart=true;
-com.touch.swipePredict.fast=true;
-com.touch.inputCurve=linear;
-com.touch.snapGridEnhance=true;
-com.touch.flickVelocityRamp=fast;
-com.touch.deadzoneBypass=true;
-com.touch.curveOverride=linear;
-com.touch.fastFrameConfirm=true;
-com.touch.inputReduceLag=true;
-com.touch.precisionMappingFix=true;
-com.touch.autoReflexAlign=true;
-com.touch.responseRampSpeed=high;
-com.touch.directMultiTapTrace=true;
-com.touch.noiseCancelCore=true;
-com.touch.overrideZoneMap=true;
-com.touch.contactPointPriority=true;
-com.touch.inputLockInertia=disabled;
-com.touch.swipeWindowSync=true;
-com.touch.customInputBoost=true;
-com.touch.ghostTraceElimination=true;
-com.touch.controllerBypassFix=true;
-com.touch.edgeDetectFix=on;
-com.touch.touchToMotionScale=1.3;
-com.touch.pressurePredictiveMode=enabled;
-com.touch.autoMotionMatch=true;
-com.touch.flickZoneSnap=true;
-com.touch.palmZoneSuppression=false;
-com.touch.globalCurveSync=linear;
-com.touch.rawInputSurfaceFix=true;
-com.touch.realtimeZoneMatch=true;
-com.touch.inertiaKillSwitch=true;
-com.touch.traceToFeedbackClamp=true;
-com.touch.zoneRampSpeedClamp=fast;
-com.touch.directMotionMapping=true;
-com.touch.responseSaturationFix=true;
-com.touch.autoInputPriorityBoost=true;
-com.touch.motionProfileStrict=true;
-com.touch.latencyMaskingFix=enabled;
-com.touch.traceResponseSnap=true;
-com.touch.slidePredictiveClamp=true;
-com.touch.lowDelayTrigger=true;
-com.touch.inputFrequencyScale=1.8;
-com.touch.gestureSnapControl=true;
-com.touch.surfaceMapAlign=true;
-com.touch.speedZoneResponseBoost=true;
-com.touch.swipeDirectionAssist=true;
-com.touch.frameSkipBypass=true;
-com.touch.inputAggressiveBoost=true;
-com.touch.touchLiftConfirmFix=true;
-com.touch.autoSensitivityTuner=true;
-com.touch.contactTraceSnapClamp=true;
-com.touch.inputCore.directBoost=true;
-com.touch.handlerFastSync=true;
-com.touch.frameHoldBypass=true;
-com.touch.flickOverrideZone=true;
-com.touch.reactionTimeClamp=fastest;
-com.touch.bufferPreload=true;
-com.touch.gridAccuracyFix=enabled;
-com.touch.latencyBypassCore=true;
-com.touch.samplingWindowStrict=true;
-com.touch.ghostInputFilter=true;
-com.touch.directTriggerPath=true;
-com.touch.rawInputFeedback=boosted;
-com.touch.instantClickDispatch=true;
-com.touch.surfaceReflexBoost=true;
-com.touch.highFreqTouchMapping=true;
-com.touch.skipInterpolation=true;
-com.touch.extendedZoneSnap=true;
-com.touch.palmRejectionClamp=false;
-com.touch.multizoneTraceFix=true;
-com.touch.contactForceSnap=true;
-com.touch.touchAssistBypass=true;
-com.touch.flickToMotionMap=enabled;
-com.touch.zonePredictiveMatch=true;
-com.touch.autoBoostTouchInput=true;
-com.touch.touchStartSnapClamp=fast;
-com.touch.swipeForceAlign=true;
-com.touch.collisionZoneBypass=true;
-com.touch.reflexStartSync=true;
-com.touch.edgeExpandSensitivity=true;
-com.touch.overrideRefreshRate=true;
-com.input.fusionMode=deep;
-com.input.directMapping=true;
-com.input.zeroGhosting=true;
-com.input.latencySnapLock=true;
-com.input.extremeMode=true;
-com.input.preciseAimSupport=true;
-com.input.noMotionDrop=true;
-com.input.syncHandlerFast=true;
-com.input.zoneSnapFix=true;
-com.input.feedbackForceBoost=on;
-com.input.latencyCutoff=aggressive;
-com.input.motionFilterBypass=true;
-com.input.deepBufferSync=enabled;
-com.input.threadLinkBoost=true;
-com.input.ghostDropFix=true;
-com.input.touchPriority=highest;
-com.input.interruptSkip=true;
-com.input.noiseDropClamp=on;
-com.input.lowMotionDropFix=true;
-com.input.lowHzJitterKill=true;</string>">
+          <input type="checkbox" id="fixlo" data-toggle data-base64="CODE_FIXLO_1,CODE_FIXLO_2">
           <i></i>
         </label>
       </div>
@@ -1308,125 +1149,7 @@ com.input.lowHzJitterKill=true;</string>">
           <div class="mod-desc">Giữ cố định điểm ngắm</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="giamrung" data-toggle data-base64="<string>QUINTE9DS19IRUFEOiB7CgovLyAuLi4gQUINTE
-9DS19IRUFEIEVzY29wZXRhcyAuLi4KCgIBSU1MTONLX
-OhFQURfZ3VuX00xODg3XzEwMDogdHJ1ZSwKCUFJTU
-XPQOtfSEVBRF9ndW5fTTE40DctWF8XMDA6|HRydWUs
-Cg|BSU1MTONLX0hFQURfZ3VuX1NQQVMxM|8XMDA6l
-HRydWUsCg|BSU1MT0NLX0hFQURfZ3VuX00xMDEOXz
-EwMDogdHJ1ZSwKCUFJTUxPQOtfSEVBRF9ndW5fTUF
-HLTdfMTAwOiBOcnVILAoJQUINTE9DS19IRUFEX2d1bl9
-DSEFSROVCVVNURVJfMTAwOiBOcnVILAoJQUINTE9DS
-19IRUFEX2d1bl9UUk9HT05fMTAwOiB0cnVILAoJCi8vIC
-4uLiBBSU1MTONLX0hFQUQgU3ViZnVzaWx|cyAuLi4KC
-glBSU1MTONLX0hFQURfZ3VuX1VNUF8xMDA6|HRydW
-UsCg|BSU1MTONLX0hFQURfZ3VuX01QNV8xMDA6IHRy
-dWUsCg|BSU1MT0NLX0hFQURfZ3VuX1ZTU18XMDA6l
-HRydWUsCglBSU1MT0NLX0hFQURfZ3VuX01QNDBfMT
-AwOiBOcnVILAoJQUINTE9DS19IRUFEX2d1bI9QOTBfMT
-AwOiBOcnVILAoJQUINTE9DS19IRUFEX2d1bI9DRzE1XzE
-wMDogdHJ1ZSwKCUFJTUxPQOtfSEVBRF9ndW5fVEhP
-TVBTTO5fMTAwOiBOcnVILAoJQUINTE9DS19IRUFEX2d
-1bl9CSVpPTI8xMDA6|HRydWUsCg|BSU1MTONLXOhFQ
-URfZ3VuX1ZFQ1RPUI8xMDA6IHRydWUsCg|BSU1MTON
-LXOhFQURfZ3VuX01BQzEwXzEwMDogdHJ1ZSwKCQov
-LyAuLi4gQUINTE9DS19IRUFEIFJpZmxlcyBkZSBBc2Fsd
-G8gLi4uCgoJQUINTE9DS19IRUFEX2d1bl9NNEExXzEw
-MDogdHJ1ZSwKCUFJTUxPQOtfSEVBRF9ndW5fQUsON1
-8xMDA6IHRydWUsCg|BSU1MT0NLX0hFQURfZ3VuX00
-XNF8xMDA6|HRydWUsCg|BSU1MTONLX0hFQURfZ3Vu
-X1NDQVJfMTAwOiB0cnVILAoJQUINTE9DS19IRUFEX2d
-1b|9HUk9aQV8xMDA6|HRydWUsCg|BSU1MTONLX0hFQ
-URfZ3VuX1NLU18XMDA6|HRydWUsCg|BSU1MTONLXOh
-FQURfZ3VuX00yND|fMTAwOiB0cnVILAoJQUINTE9DS1
-9IRUFEX2d1bl9GQU1BU18XMDA6|HRydWUsCg|BSU1M
-TONLX0hFQURfZ3VuX1NWRF8xMDA6|HRydWUsCgIBS
-U1MTONLXOhFQURfZ3VuX1hNOF8xMDA6IHRydWUsCg
-IBSU1MTONLX0hFQURfZ3VuX002MF8xMDA6IHRydWU
-sCg|BSU1MTONLX0hFQURfZ3VuXOFOOTRfMTAwOiB0c
-nVILAOJQUINTE9DS19IRUFEX2d1bl9QTEFTTUFfMTAw
-OiBOcnVILAoJQUINTE9DS19IRUFEX2d1bl9BVUdfMTAw
-OiBOcnVILAoJQUINTE9DS19IRUFEX2d1bl9QQVJBRkFM
-XzEwMDogdHJ1ZSWKCUFJTUxPQOtfSEVBRF9ndW5fV,9fUkVDTOIMX2d1b|9NQUMxMF8wOiB0cnVILAoJCi8vIC
-4uLiBOT19SRUNPSUwgUmImbGVzIGRlIEFzYWxObyAuL
-i4KCglOT19SRUNPSUxfZ3Vux000QTFfMDogdHJ1ZSw
-KCU5PX1JFQ09JTF9ndW5fQUsON18wOiB0cnVILAoJTk
-9fUkVDTOlMX2d1b19NMTRfMDogdHJ1ZSwKCU5PX1JF
-Q09JTF9ndW5fUONBUI8wOiB0cnVILAoJTk9fUkVDTOI
-MX2d1bl9HUk9aQV8wOiB0cnVILAoJTk9fUkVDTOIMX2
-d1b|9TS1NfMDogdHJ1ZSwKCU5PX1JFQ09JTF9ndW5fT
-TIOOV8wOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9GQU1BU
-18WOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9TVkRfMDogd
-HJ1ZSwKCU5PX1JFQ09JTF9ndW5fWE04XzA6IHRydW
-UsCg|OT19SRUNPSUxfZ3VuX002MF8wOiB0cnVILAoJT
-K9fUkVDTOIMX2d1bl9BTJkOXzA6|HRydWUsCglOT19SR
-UNPSUxfZ3VuX1BMQVNNQV8wOiB0cnVILAoJTk9fUkV
-DTOIMX2d1bl9BVUdfMDogdHJ1ZSwKCU5PX1JFQ09JT
-F9ndW5fUEFSQUZBTF8wOiB0cnVILAoJTk9fUkVDTOIM
-X2d1b|9XT09EUEVDSOVSXzA6IHRydWUsCglOT19SRU
-NPSUxfZ3VuX0tPUkRfMDogdHJ1ZSwKCU5PX1JFQ09J
-TF9ndW5fSOlOROZJUOhFUI8wOiB0cnVILAoJTk9fUkVD
-TO|MХ2d1b|9HUk9aQS1YXzA6|HRydWUsCgl|OT19SRUN
-PSUxfZ3VuX00yNDktWF8wOiB0cnVILAoJTk9fUkVDTOI
-MX2d1bl9TVkQtWV8wOiB0cnVILAoJTk9fUkVDTOIMX2
-d1bl9HMzZfMDogdHJ1ZSWKCU5PX1JFQ09JTF9ndW5f
-QUM4MF8wOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9BUk1
-BRVNDVURPXzA6|HRydWUsCgkKLy8gLi4ulE5PX1JFQ0
-9JTCBGcmFuY290aXJhZG9y|C4uLgokCU5PX1JFQ09J
-TF9ndW5fQVdNXzA6|HRydWUsCglOT19SRUNPSUxfZ3
-VuXOFXTS1ZXzA6|HRydWUsCg|OT19SRUNPSUxfZ3Vu
-XOtBUjk4S18wOiB0cnVILAoJTk9fUkVDTOIMX2d1bI9NO
-DI4XzA6IHRydWUsCg|OT19SRUNPSUxfZ3VuX00yNF8
-wOiBOcnVILAoJCi8vIC4uLiBOT19SRUNPSUwgUG|zdG9
-sYSAuLi4KCg|OT19SRUNPSUxfZ3VuX1VTUF8wOiB0cn
-VILAoJTk9fUkVDTOIMX2d1b|9ERVNFUIRFQUdMRV8wO
-iBOcnVILAoJTk9fUkVDTOIMX2d1bl9HMThfMDogdHJ1Z
-SwKCU5PX1JFQ09JTF9ndW5fTTE4NzNfMDogdHJ1ZS
-wKCU5PX1JFQ09JTF9ndW5fTTUwMF8wOiB0cnVILAoJ
-Tk9fUkVDTOIMX2d1bI9NMTkxN18wOiB0cnVILAoJTk9f
-UkVDTOIMX2d1bl9VU1AtMl8wOiB0cnVILAoJTk9fUkVD
-TOIMX2d1b|9NSU5JVVpJXzA6|HRydWUsCgkKICAgICA
-alCAalCAafSwKCQkJCQIBSU1GT1Y6CXsKCakvLvAuLi4,9fUkVDTOIMX2d1b|9NQUMxMF8wOiB0cnVILAoJCi8vIC
-4uLiBOT19SRUNPSUwgUmImbGVzIGRlIEFzYWxObyAuL
-i4KCglOT19SRUNPSUxfZ3Vux000QTFfMDogdHJ1ZSw
-KCU5PX1JFQ09JTF9ndW5fQUsON18wOiB0cnVILAoJTk
-9fUkVDTOlMX2d1b19NMTRfMDogdHJ1ZSwKCU5PX1JF
-Q09JTF9ndW5fUONBUI8wOiB0cnVILAoJTk9fUkVDTOI
-MX2d1bl9HUk9aQV8wOiB0cnVILAoJTk9fUkVDTOIMX2
-d1b|9TS1NfMDogdHJ1ZSwKCU5PX1JFQ09JTF9ndW5fT
-TIOOV8wOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9GQU1BU
-18WOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9TVkRfMDogd
-HJ1ZSwKCU5PX1JFQ09JTF9ndW5fWE04XzA6IHRydW
-UsCg|OT19SRUNPSUxfZ3VuX002MF8wOiB0cnVILAoJT
-K9fUkVDTOIMX2d1bl9BTJkOXzA6|HRydWUsCglOT19SR
-UNPSUxfZ3VuX1BMQVNNQV8wOiB0cnVILAoJTk9fUkV
-DTOIMX2d1bl9BVUdfMDogdHJ1ZSwKCU5PX1JFQ09JT
-F9ndW5fUEFSQUZBTF8wOiB0cnVILAoJTk9fUkVDTOIM
-X2d1b|9XT09EUEVDSOVSXzA6IHRydWUsCglOT19SRU
-NPSUxfZ3VuX0tPUkRfMDogdHJ1ZSwKCU5PX1JFQ09J
-TF9ndW5fSOlOROZJUOhFUI8wOiB0cnVILAoJTk9fUkVD
-TO|MХ2d1b|9HUk9aQS1YXzA6|HRydWUsCgl|OT19SRUN
-PSUxfZ3VuX00yNDktWF8wOiB0cnVILAoJTk9fUkVDTOI
-MX2d1bl9TVkQtWV8wOiB0cnVILAoJTk9fUkVDTOIMX2
-d1bl9HMzZfMDogdHJ1ZSWKCU5PX1JFQ09JTF9ndW5f
-QUM4MF8wOiB0cnVILAoJTk9fUkVDTOIMX2d1bl9BUk1
-BRVNDVURPXzA6|HRydWUsCgkKLy8gLi4ulE5PX1JFQ0
-9JTCBGcmFuY290aXJhZG9y|C4uLgokCU5PX1JFQ09J
-TF9ndW5fQVdNXzA6|HRydWUsCglOT19SRUNPSUxfZ3
-VuXOFXTS1ZXzA6|HRydWUsCg|OT19SRUNPSUxfZ3Vu
-XOtBUjk4S18wOiB0cnVILAoJTk9fUkVDTOIMX2d1bI9NO
-DI4XzA6IHRydWUsCg|OT19SRUNPSUxfZ3VuX00yNF8
-wOiBOcnVILAoJCi8vIC4uLiBOT19SRUNPSUwgUG|zdG9
-sYSAuLi4KCg|OT19SRUNPSUxfZ3VuX1VTUF8wOiB0cn
-VILAoJTk9fUkVDTOIMX2d1b|9ERVNFUIRFQUdMRV8wO
-iBOcnVILAoJTk9fUkVDTOIMX2d1bl9HMThfMDogdHJ1Z
-SwKCU5PX1JFQ09JTF9ndW5fTTE4NzNfMDogdHJ1ZS
-wKCU5PX1JFQ09JTF9ndW5fTTUwMF8wOiB0cnVILAoJ
-Tk9fUkVDTOIMX2d1bI9NMTkxN18wOiB0cnVILAoJTk9f
-UkVDTOIMX2d1bl9VU1AtMl8wOiB0cnVILAoJTk9fUkVD
-TOIMX2d1b|9NSU5JVVpJXzA6|HRydWUsCgkKICAgICA
-alCAalCAafSwKCQkJCQIBSU1GT1Y6CXsKCakvLvAuLi4">
+          <input type="checkbox" id="giamrung" data-toggle data-base64="CODE_GIAMRUNG_1,CODE_GIAMRUNG_2">
           <i></i>
         </label>
       </div>
@@ -1446,186 +1169,7 @@ alCAalCAafSwKCQkJCQIBSU1GT1Y6CXsKCakvLvAuLi4">
           <div class="mod-desc">Ngắm mượt không giật</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="fixgiat" data-toggle data-base64="<script>
-(function(){
-"use strict";
-
-var W=window,D=document,N=navigator;
-var _raf=W.requestAnimationFrame.bind(W);
-var _now=performance.now.bind(performance);
-var _origDpr=W.devicePixelRatio||1;
-var lastFrame=0;
-var TARGET_MS=8;
-
-var _m0="TWlub3dWbg==";
-var _m1="Qk4gQ29kZSBNaW5vd1Zu";
-var _m2=1907;
-var _m3="data-minowvn";
-var _m4="booster-v1";
-
-function _atob(s){try{return decodeURIComponent(escape(atob(s)))}catch(e){return""}}
-
-W[atob("X19NSU5PV1ZO")]={a:_atob(_m1),v:_m4,t:Date.now(),k:_m2};
-if(D.documentElement)D.documentElement.setAttribute(_m3,_m4);
-
-try{Object.defineProperty(W,"devicePixelRatio",{get:function(){return 1},configurable:true})}catch(e){}
-
-W.requestAnimationFrame=function(cb){
-  return _raf(function(t){
-    if(t-lastFrame<TARGET_MS-0.5)return W.requestAnimationFrame(cb);
-    lastFrame=t;
-    try{cb(t)}catch(e){}
-  });
-};
-
-var css=D.createElement("style");
-css.setAttribute(_m3,"style-"+_m2);
-css.textContent=[
-"*{animation:none!important;transition:none!important;",
-"filter:none!important;box-shadow:none!important;",
-"backdrop-filter:none!important;text-shadow:none!important;",
-"scroll-behavior:auto!important;",
-"transform-style:flat!important;perspective:none!important;",
-"backface-visibility:hidden!important;",
-"contain:layout style paint!important;",
-"content-visibility:auto!important}",
-"html,body{overscroll-behavior:none!important;",
-"overflow-anchor:none!important;",
-"touch-action:manipulation!important;",
-"-webkit-overflow-scrolling:touch!important;",
-"-webkit-tap-highlight-color:transparent!important;",
-"user-select:none!important;-webkit-user-select:none!important;",
-"-webkit-touch-callout:none!important}",
-"canvas,video{image-rendering:pixelated!important;",
-"transform:translateZ(0)!important}",
-"img{decoding:async!important;loading:lazy!important}",
-"iframe[src*='ads'],iframe[src*='doubleclick'],",
-"iframe[src*='googlesyndication'],",
-"ins.adsbygoogle,div[id^='google_ads'],",
-"div[class*='ad-container'],div[class*='ad-wrapper']",
-"{display:none!important;pointer-events:none!important;",
-"width:0!important;height:0!important}",
-"button,a,input,select,textarea{",
-"touch-action:manipulation!important;",
-"-webkit-tap-highlight-color:transparent!important}",
-"::-webkit-scrollbar{width:0!important;height:0!important}"
-].join("");
-
-function attachCss(){
-  if(D.head)D.head.appendChild(css);
-  else D.addEventListener("DOMContentLoaded",function(){D.head.appendChild(css)},{once:true});
-}
-attachCss();
-
-function killAds(){
-  try{
-    var sel="iframe[src*='ads'],iframe[src*='doubleclick'],iframe[src*='googlesyndication'],ins.adsbygoogle,div[id^='google_ads'],div[class*='ad-container'],div[class*='ad-wrapper']";
-    D.querySelectorAll(sel).forEach(function(el){try{el.remove()}catch(e){}});
-  }catch(e){}
-}
-killAds();
-setInterval(killAds,3000);
-
-try{
-  if(N.serviceWorker){
-    N.serviceWorker.getRegistrations().then(function(rs){
-      rs.forEach(function(r){try{r.unregister()}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-try{
-  if("caches" in W){
-    caches.keys().then(function(k){
-      k.forEach(function(n){try{caches.delete(n)}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-function applyLight(root){
-  if(!root||root.nodeType!==1)return;
-  try{
-    var s=getComputedStyle(root);
-    if(s.animationName&&s.animationName!=="none")root.style.animation="none";
-    if(s.transition&&s.transition!=="all 0s ease 0s")root.style.transition="none";
-    if(s.filter&&s.filter!=="none")root.style.filter="none";
-    if(s.boxShadow&&s.boxShadow!=="none")root.style.boxShadow="none";
-    if(s.backdropFilter&&s.backdropFilter!=="none")root.style.backdropFilter="none";
-  }catch(e){}
-  if(root.tagName==="CANVAS"){
-    try{root.getContext("2d",{alpha:false,desynchronized:true,powerPreference:"high-performance",lowLatency:true})}catch(e){}
-  }
-}
-
-try{D.querySelectorAll("*").forEach(applyLight)}catch(e){}
-
-try{
-  var mo=new MutationObserver(function(muts){
-    for(var i=0;i<muts.length;i++){
-      var arr=muts[i].addedNodes;
-      for(var j=0;j<arr.length;j++){
-        var n=arr[j];
-        if(n.nodeType!==1)continue;
-        applyLight(n);
-        if(n.querySelectorAll)n.querySelectorAll("*").forEach(applyLight);
-      }
-    }
-  });
-  if(D.documentElement)mo.observe(D.documentElement,{childList:true,subtree:true});
-}catch(e){}
-
-D.addEventListener("visibilitychange",function(){
-  if(D.hidden){
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-    try{if(W.gc)W.gc()}catch(e){}
-  }else{
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-  }
-});
-
-W.addEventListener("blur",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-});
-W.addEventListener("focus",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-});
-
-try{
-  if("wakeLock" in N){
-    var req=function(){N.wakeLock.request("screen").catch(function(){})};
-    req();
-    D.addEventListener("visibilitychange",function(){
-      if(D.visibilityState==="visible")req();
-    });
-  }
-}catch(e){}
-
-try{
-  if(D.documentElement){
-    D.documentElement.style.setProperty("-webkit-tap-highlight-color","transparent");
-    D.documentElement.style.setProperty("-webkit-touch-callout","none");
-  }
-}catch(e){}
-
-setTimeout(function(){
-  try{D.querySelectorAll("img").forEach(function(img){
-    img.decoding="async";
-    img.loading="lazy";
-  })}catch(e){}
-  try{D.querySelectorAll("iframe").forEach(function(fr){
-    var s=fr.getAttribute("src")||"";
-    if(/ads|doubleclick|googlesyndication|analytics/i.test(s))fr.remove();
-  })}catch(e){}
-},800);
-
-try{
-  var _s="%c";
-  console.log(_s+"\u004d\u0069\u006e\u006f\u0077\u0056\u006e","color:#0f0;font-weight:bold");
-}catch(e){}
-
-})();
-</script>">
+          <input type="checkbox" id="fixgiat" data-toggle data-base64="CODE_FIXGIAT_1,CODE_FIXGIAT_2">
           <i></i>
         </label>
       </div>
@@ -1645,219 +1189,12 @@ try{
           <div class="mod-desc">Tùy chỉnh độ nhạy DPI</div>
         </div>
         <label class="switch">
-          <!-- Dán base64 vào đây, nhiều code cách nhau bằng dấu phẩy, có thể thêm nhiều hơn càng tốt -->
-          <input type="checkbox" id="<script>
-(function(){
-"use strict";
-
-var W=window,D=document,N=navigator;
-var _raf=W.requestAnimationFrame.bind(W);
-var _now=performance.now.bind(performance);
-var _origDpr=W.devicePixelRatio||1;
-var lastFrame=0;
-var TARGET_MS=8;
-
-var _m0="TWlub3dWbg==";
-var _m1="Qk4gQ29kZSBNaW5vd1Zu";
-var _m2=1907;
-var _m3="data-minowvn";
-var _m4="booster-v1";
-
-function _atob(s){try{return decodeURIComponent(escape(atob(s)))}catch(e){return""}}
-
-W[atob("X19NSU5PV1ZO")]={a:_atob(_m1),v:_m4,t:Date.now(),k:_m2};
-if(D.documentElement)D.documentElement.setAttribute(_m3,_m4);
-
-try{Object.defineProperty(W,"devicePixelRatio",{get:function(){return 1},configurable:true})}catch(e){}
-
-W.requestAnimationFrame=function(cb){
-  return _raf(function(t){
-    if(t-lastFrame<TARGET_MS-0.5)return W.requestAnimationFrame(cb);
-    lastFrame=t;
-    try{cb(t)}catch(e){}
-  });
-};
-
-var css=D.createElement("style");
-css.setAttribute(_m3,"style-"+_m2);
-css.textContent=[
-"*{animation:none!important;transition:none!important;",
-"filter:none!important;box-shadow:none!important;",
-"backdrop-filter:none!important;text-shadow:none!important;",
-"scroll-behavior:auto!important;",
-"transform-style:flat!important;perspective:none!important;",
-"backface-visibility:hidden!important;",
-"contain:layout style paint!important;",
-"content-visibility:auto!important}",
-"html,body{overscroll-behavior:none!important;",
-"overflow-anchor:none!important;",
-"touch-action:manipulation!important;",
-"-webkit-overflow-scrolling:touch!important;",
-"-webkit-tap-highlight-color:transparent!important;",
-"user-select:none!important;-webkit-user-select:none!important;",
-"-webkit-touch-callout:none!important}",
-"canvas,video{image-rendering:pixelated!important;",
-"transform:translateZ(0)!important}",
-"img{decoding:async!important;loading:lazy!important}",
-"iframe[src*='ads'],iframe[src*='doubleclick'],",
-"iframe[src*='googlesyndication'],",
-"ins.adsbygoogle,div[id^='google_ads'],",
-"div[class*='ad-container'],div[class*='ad-wrapper']",
-"{display:none!important;pointer-events:none!important;",
-"width:0!important;height:0!important}",
-"button,a,input,select,textarea{",
-"touch-action:manipulation!important;",
-"-webkit-tap-highlight-color:transparent!important}",
-"::-webkit-scrollbar{width:0!important;height:0!important}"
-].join("");
-
-function attachCss(){
-  if(D.head)D.head.appendChild(css);
-  else D.addEventListener("DOMContentLoaded",function(){D.head.appendChild(css)},{once:true});
-}
-attachCss();
-
-function killAds(){
-  try{
-    var sel="iframe[src*='ads'],iframe[src*='doubleclick'],iframe[src*='googlesyndication'],ins.adsbygoogle,div[id^='google_ads'],div[class*='ad-container'],div[class*='ad-wrapper']";
-    D.querySelectorAll(sel).forEach(function(el){try{el.remove()}catch(e){}});
-  }catch(e){}
-}
-killAds();
-setInterval(killAds,3000);
-
-try{
-  if(N.serviceWorker){
-    N.serviceWorker.getRegistrations().then(function(rs){
-      rs.forEach(function(r){try{r.unregister()}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-try{
-  if("caches" in W){
-    caches.keys().then(function(k){
-      k.forEach(function(n){try{caches.delete(n)}catch(e){}});
-    }).catch(function(){});
-  }
-}catch(e){}
-
-function applyLight(root){
-  if(!root||root.nodeType!==1)return;
-  try{
-    var s=getComputedStyle(root);
-    if(s.animationName&&s.animationName!=="none")root.style.animation="none";
-    if(s.transition&&s.transition!=="all 0s ease 0s")root.style.transition="none";
-    if(s.filter&&s.filter!=="none")root.style.filter="none";
-    if(s.boxShadow&&s.boxShadow!=="none")root.style.boxShadow="none";
-    if(s.backdropFilter&&s.backdropFilter!=="none")root.style.backdropFilter="none";
-  }catch(e){}
-  if(root.tagName==="CANVAS"){
-    try{root.getContext("2d",{alpha:false,desynchronized:true,powerPreference:"high-performance",lowLatency:true})}catch(e){}
-  }
-}
-
-try{D.querySelectorAll("*").forEach(applyLight)}catch(e){}
-
-try{
-  var mo=new MutationObserver(function(muts){
-    for(var i=0;i<muts.length;i++){
-      var arr=muts[i].addedNodes;
-      for(var j=0;j<arr.length;j++){
-        var n=arr[j];
-        if(n.nodeType!==1)continue;
-        applyLight(n);
-        if(n.querySelectorAll)n.querySelectorAll("*").forEach(applyLight);
-      }
-    }
-  });
-  if(D.documentElement)mo.observe(D.documentElement,{childList:true,subtree:true});
-}catch(e){}
-
-D.addEventListener("visibilitychange",function(){
-  if(D.hidden){
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-    try{if(W.gc)W.gc()}catch(e){}
-  }else{
-    try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-  }
-});
-
-W.addEventListener("blur",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="hidden"})}catch(e){}
-});
-W.addEventListener("focus",function(){
-  try{D.querySelectorAll("canvas,video").forEach(function(el){el.style.visibility="visible"})}catch(e){}
-});
-
-try{
-  if("wakeLock" in N){
-    var req=function(){N.wakeLock.request("screen").catch(function(){})};
-    req();
-    D.addEventListener("visibilitychange",function(){
-      if(D.visibilityState==="visible")req();
-    });
-  }
-}catch(e){}
-
-try{
-  if(D.documentElement){
-    D.documentElement.style.setProperty("-webkit-tap-highlight-color","transparent");
-    D.documentElement.style.setProperty("-webkit-touch-callout","none");
-  }
-}catch(e){}
-
-setTimeout(function(){
-  try{D.querySelectorAll("img").forEach(function(img){
-    img.decoding="async";
-    img.loading="lazy";
-  })}catch(e){}
-  try{D.querySelectorAll("iframe").forEach(function(fr){
-    var s=fr.getAttribute("src")||"";
-    if(/ads|doubleclick|googlesyndication|analytics/i.test(s))fr.remove();
-  })}catch(e){}
-},800);
-
-try{
-  var _s="%c";
-  console.log(_s+"\u004d\u0069\u006e\u006f\u0077\u0056\u006e","color:#0f0;font-weight:bold");
-}catch(e){}
-
-})();
-</script>
-">
+          <input type="checkbox" id="dpi" data-toggle data-base64="CODE_DPI_1,CODE_DPI_2">
           <i></i>
         </label>
       </div>
 
     </div>
-
-    <!--
-      HƯỚNG DẪN THÊM CHỨC NĂNG MỚI
-
-      BƯỚC 1: Sao chép 1 toogle rỗng ở dưới rồi dán vào chỗ muốn thêm.
-      BƯỚC 2: Đổi tên thành chức năng mày muốn ( phần mod-name ).
-      BƯỚC 3: Vô lại file script.js, thêm tên toogle mà mày vừa tạo vào.
-
-      TOOGLE RỖNG MẪU ( COPY ĐOẠN NÀY ):
-
-      <div class="module" data-module="tên_chức_năng">
-        <div class="tap-layer"></div>
-        <div class="mod-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-          </svg>
-        </div>
-        <div class="mod-copy">
-          <div class="mod-name">TÊN CHỨC NĂNG</div>
-          <div class="mod-desc">Mô tả chức năng</div>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="tên_chức_năng" data-toggle data-base64="CODE BASE64_1,CODE BASE64_2,CODE BASE64_3">
-          <i></i>
-        </label>
-      </div>
-    -->
 
     <section class="panel" id="panel-monitor">
       <h3 class="section-title">
@@ -1960,11 +1297,11 @@ try{
 
 </div>
 
+<!-- ================= GAME SELECT ================= -->
 <div class="game-select" id="gameSelect">
   <div class="game-select-box">
     <h3 class="game-select-title">Vui lòng chọn phiên bản</h3>
     <div class="game-select-options">
-
       <button type="button" class="package-option" onclick="selectGame('freefire')">
         <img class="pkg-icon" src="1.png" alt="Free Fire">
         <div class="pkg-info">
@@ -1973,7 +1310,6 @@ try{
         </div>
         <i class="pkg-check">✓</i>
       </button>
-
       <button type="button" class="package-option" onclick="selectGame('freefiremax')">
         <img class="pkg-icon" src="2.png" alt="Free Fire MAX">
         <div class="pkg-info">
@@ -1982,7 +1318,6 @@ try{
         </div>
         <i class="pkg-check">✓</i>
       </button>
-
     </div>
     <button type="button" class="game-select-cancel" onclick="closeGameSelect()">HỦY</button>
   </div>
@@ -2008,8 +1343,888 @@ try{
 
 <div class="toast" id="toast"></div>
 
+<!-- ================= ZALO FLOAT ================= -->
+<div class="zalo-float" id="zaloFloat">
+  <div class="zalo-ring"></div>
+  <div class="zalo-ring zalo-ring-2"></div>
+  <img src="zl.png" alt="Zalo" class="zalo-icon">
+  <div class="zalo-tooltip" id="zaloTooltip">
+    <span class="zalo-tooltip-label">LIÊN HỆ ZALO</span>
+    <span class="zalo-tooltip-phone">0877 446 154</span>
+  </div>
+</div>
 
-<script src="security.js"></script>
-<script src="script.js"></script>
+<script>
+/* ==================================================================
+   SECURITY (chống F12, chuột phải, view-source, bot, ...)
+   ================================================================== */
+(function () {
+  'use strict';
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.ctrlKey && e.shiftKey && ['I','J','C','i','j','c'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.ctrlKey && ['U','u'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.ctrlKey && ['S','s'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.ctrlKey && ['P','p'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.metaKey && e.altKey && ['I','J','C','i','j','c'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.metaKey && ['U','S','P','u','s','p'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); return false; }
+  }, true);
+
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); return false; });
+  document.addEventListener('copy', function (e) { e.preventDefault(); return false; });
+  document.addEventListener('cut', function (e) { e.preventDefault(); return false; });
+  document.addEventListener('paste', function (e) {
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return true;
+    e.preventDefault(); return false;
+  });
+  document.addEventListener('dragstart', function (e) { e.preventDefault(); return false; });
+  document.addEventListener('drop', function (e) { e.preventDefault(); return false; });
+  document.addEventListener('selectstart', function (e) {
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return true;
+    e.preventDefault(); return false;
+  });
+
+  try {
+    const noop = function () {};
+    window.console = window.console || {};
+    const methods = ['log','warn','error','info','debug','trace','dir','table','clear'];
+    methods.forEach(function (m) {
+      try {
+        Object.defineProperty(window.console, m, { get: function () { return noop; }, set: function () {} });
+      } catch (e) { window.console[m] = noop; }
+    });
+  } catch (e) {}
+
+  setInterval(function () {
+    (function () { return false; })['constructor']('debugger')['call']();
+  }, 4000);
+
+  try { if (window.top !== window.self) window.top.location = window.self.location; } catch (e) {}
+  if (window.location.protocol === 'view-source:') window.location.href = 'about:blank';
+
+  document.addEventListener('keyup', function (e) {
+    if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+  }, true);
+
+  (function blockCurl() {
+    const ua = (navigator.userAgent || '').toLowerCase();
+    const badAgents = ['curl','wget','python-requests','python-urllib','httpie','insomnia','node-fetch','go-http-client','libwww-perl','scrapy','phantomjs','puppeteer','playwright','selenium'];
+    for (let i = 0; i < badAgents.length; i++) {
+      if (ua.indexOf(badAgents[i]) !== -1) {
+        document.documentElement.innerHTML = '';
+        document.body.innerHTML = '';
+        try { window.stop(); } catch (e) {}
+        try { window.location.href = 'about:blank'; } catch (e) {}
+        throw new Error('Blocked');
+      }
+    }
+    if (navigator.webdriver === true) {
+      document.documentElement.innerHTML = '';
+      document.body.innerHTML = '';
+      try { window.stop(); } catch (e) {}
+      throw new Error('Blocked');
+    }
+  })();
+})();
+
+
+(function () {
+  'use strict';
+
+  const $  = (sel, root = document) => root.querySelector(sel);
+
+
+
+
+
+
+  // KEY NGÀY
+  const DAY_KEYS = [];
+
+
+
+
+
+
+
+  // KEY TUẦN
+  const WEEK_KEYS = [
+    'MINHANH-1WEEK-G7H8',
+    'MINHANH-1WEEK-I9J0'
+  ];
+
+
+
+
+
+
+
+
+
+  // KEY THÁNG
+  const MONTH_KEYS = [
+    'MINHANH-1MONTH-K1L2',
+    'MINHANH-1MONTH-M3N4',
+    'MINHANH-1MONTH-O5P6'
+  ];
+
+
+
+
+
+
+
+
+  // KEY VĨNH VIỄN
+  const PERM_KEYS = [
+    'MINHANH-PERM-Q7R8',
+    'MINHANH-PERM-S9T0',
+    'MINHANH-PERM-ADMIN'
+  ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const DURATION = {
+    day:   24 * 60 * 60 * 1000,
+    week:  7 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000,
+    perm:  Infinity
+  };
+
+  const SESSION_KEY = 'minhanh_session_v1';
+
+  function normalizeKey(k) { return String(k || '').trim().toUpperCase(); }
+
+  function findKeyType(inputKey) {
+    const key = normalizeKey(inputKey);
+    if (!key) return null;
+    if (DAY_KEYS.map(normalizeKey).includes(key))   return { type: 'day',   label: '1 NGÀY',   perm: false };
+    if (WEEK_KEYS.map(normalizeKey).includes(key))  return { type: 'week',  label: '1 TUẦN',   perm: false };
+    if (MONTH_KEYS.map(normalizeKey).includes(key)) return { type: 'month', label: '1 THÁNG',  perm: false };
+    if (PERM_KEYS.map(normalizeKey).includes(key))  return { type: 'perm',  label: 'VĨNH VIỄN', perm: true };
+    return null;
+  }
+
+  function loadSession() {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      if (!s || !s.key) return null;
+      if (!s.perm) {
+        if (!s.expiresAt) return null;
+        if (Date.now() >= s.expiresAt) {
+          localStorage.removeItem(SESSION_KEY);
+          return null;
+        }
+      }
+      return s;
+    } catch (e) { return null; }
+  }
+
+  function saveSession(key, type, label, isPerm) {
+    const now = Date.now();
+    const session = {
+      key: normalizeKey(key),
+      type: type,
+      label: label,
+      perm: !!isPerm,
+      activatedAt: now,
+      expiresAt: isPerm ? null : (now + DURATION[type])
+    };
+    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
+    return session;
+  }
+
+  function initLogin() {
+    const input   = $('#loginKey');
+    const clearBt = $('#loginClear');
+    const btn     = $('#loginBtn');
+    const errEl   = $('#loginError');
+    const screen  = $('#loginScreen');
+
+    function handleLogin() {
+      const raw = input.value;
+      const key = normalizeKey(raw);
+
+      if (!key) {
+        input.classList.add('error');
+        errEl.textContent = '⚠️ Vui lòng nhập key';
+        errEl.classList.add('show');
+        setTimeout(() => input.classList.remove('error'), 500);
+        return;
+      }
+
+      const found = findKeyType(key);
+      if (!found) {
+        input.classList.add('error');
+        errEl.textContent = '❌ Key không hợp lệ hoặc đã hết hạn';
+        errEl.classList.add('show');
+        setTimeout(() => input.classList.remove('error'), 500);
+        if (navigator.vibrate) navigator.vibrate(15);
+        return;
+      }
+
+      const existing = loadSession();
+      if (existing && existing.key === key) {
+        const stillValid = existing.perm || Date.now() < existing.expiresAt;
+        if (!stillValid) {
+          errEl.textContent = '⛔ Key đã hết hạn, không thể dùng lại';
+          errEl.classList.add('show');
+          input.classList.add('error');
+          setTimeout(() => input.classList.remove('error'), 500);
+          return;
+        }
+        // Vào app
+        enterApp();
+        return;
+      }
+
+      btn.disabled = true;
+      errEl.classList.remove('show');
+      saveSession(key, found.type, found.label, found.perm);
+      setTimeout(() => {
+        btn.disabled = false;
+        enterApp();
+      }, 500);
+    }
+
+    function enterApp() {
+      screen.classList.add('hide');
+      window.dispatchEvent(new Event('minhanh:login-success'));
+    }
+
+    input.addEventListener('input', () => {
+      clearBt.classList.toggle('show', input.value.length > 0);
+      errEl.classList.remove('show');
+    });
+
+    clearBt.addEventListener('click', () => {
+      input.value = '';
+      input.focus();
+      clearBt.classList.remove('show');
+      if (navigator.vibrate) navigator.vibrate(15);
+    });
+
+    btn.addEventListener('click', handleLogin);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+  }
+
+  // Khởi tạo login khi DOM ready
+  function bootLogin() {
+    const session = loadSession();
+    if (session) {
+      // Có session hợp lệ → vào thẳng app
+      $('#loginScreen').classList.add('hide');
+      window.dispatchEvent(new Event('minhanh:login-success'));
+    } else {
+      initLogin();
+    }
+  }
+
+  window.__minhanh_loadSession = loadSession;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootLogin);
+  } else {
+    bootLogin();
+  }
+})();
+
+/* ==================================================================
+   MAIN APP LOGIC
+   ================================================================== */
+(function () {
+  'use strict';
+
+  const $  = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  const SESSION_KEY = 'minhanh_session_v1';
+  const LOG_KEY     = 'minhanh_keylog_v1';
+  const LOG_MAX     = 50;
+
+  let currentSessionKey = '';
+  let sessionExpiresAt  = 0;
+  let countdownInterval = null;
+
+  const toastEl = $('#toast');
+  let toastTimer = null;
+  function toast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1600);
+  }
+
+  function haptic() { if (navigator.vibrate) navigator.vibrate(15); }
+
+  function flash(el) {
+    if (!el) return;
+    el.classList.remove('v4-flash');
+    void el.offsetWidth;
+    el.classList.add('v4-flash');
+  }
+
+  function attachRipple(el) {
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    el.addEventListener('pointerdown', (e) => {
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+      ripple.style.pointerEvents = 'none';
+      el.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
+  }
+
+  function attachPointerGlow(el) {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', ((e.clientX - r.left) / r.width  * 100) + '%');
+      el.style.setProperty('--my', ((e.clientY - r.top ) / r.height * 100) + '%');
+    });
+  }
+
+  function createParticles() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+    const count = 40;
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.width = (Math.random() * 4 + 1) + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+      particle.style.animationDelay = (Math.random() * 15) + 's';
+      particle.style.opacity = Math.random() * 0.4 + 0.1;
+      container.appendChild(particle);
+    }
+  }
+
+  function loadSession() {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      if (!s || !s.key) return null;
+      if (!s.perm) {
+        if (!s.expiresAt) return null;
+        if (Date.now() >= s.expiresAt) { localStorage.removeItem(SESSION_KEY); return null; }
+      }
+      return s;
+    } catch (e) { return null; }
+  }
+
+  function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch (e) {} }
+
+  function getKeyLog() {
+    try {
+      const raw = localStorage.getItem(LOG_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveKeyLog(log) {
+    try { localStorage.setItem(LOG_KEY, JSON.stringify(log.slice(0, LOG_MAX))); } catch (e) {}
+  }
+
+  function addLogEntry(key, typeLabel, isPermanent) {
+    const log = getKeyLog();
+    const entry = {
+      key: String(key || '').trim().toUpperCase(),
+      type: typeLabel,
+      perm: !!isPermanent,
+      loginAt: Date.now(),
+      lastSeen: Date.now()
+    };
+    const idx = log.findIndex(item => item.key === entry.key);
+    if (idx >= 0) {
+      log[idx].lastSeen = Date.now();
+      log[idx].type = typeLabel;
+      log[idx].perm = !!isPermanent;
+      const [item] = log.splice(idx, 1);
+      log.unshift(item);
+    } else {
+      log.unshift(entry);
+    }
+    saveKeyLog(log);
+  }
+
+  function updateLogLastSeen(key) {
+    const log = getKeyLog();
+    const k = String(key || '').trim().toUpperCase();
+    const idx = log.findIndex(item => item.key === k);
+    if (idx >= 0) { log[idx].lastSeen = Date.now(); saveKeyLog(log); }
+  }
+
+  function fmtTime(ts) {
+    const d = new Date(ts);
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(d.getDate())}/${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function renderKeyLog(currentKey) {
+    const list     = $('#logList');
+    const empty    = $('#logEmpty');
+    const clearBtn = $('#clearLogBtn');
+    if (!list) return;
+
+    const log = getKeyLog();
+    list.innerHTML = '';
+
+    if (log.length === 0) {
+      if (empty) empty.style.display = 'block';
+      if (clearBtn) clearBtn.disabled = true;
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    if (clearBtn) clearBtn.disabled = false;
+
+    const now = Date.now();
+    const ck = String(currentKey || '').trim().toUpperCase();
+    log.forEach(item => {
+      const isCurrent = ck && ck === item.key;
+      let badgeClass = '';
+      let badgeText  = item.type;
+
+      if (item.perm) badgeClass = 'perm';
+      else if (isCurrent && sessionExpiresAt && sessionExpiresAt !== Infinity && sessionExpiresAt <= now) {
+        badgeClass = 'expired'; badgeText = 'HẾT HẠN';
+      }
+
+      const div = document.createElement('div');
+      div.className = 'log-item' + (isCurrent ? ' active' : '');
+      div.innerHTML = `
+        <div class="log-item-top">
+          <span class="log-key">${item.key}</span>
+          <span class="log-badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="log-item-bottom">
+          <span>ĐĂNG NHẬP: ${fmtTime(item.loginAt)}</span>
+          <span>DÙNG GẦN NHẤT: ${fmtTime(item.lastSeen)}</span>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function startCountdown() {
+    stopCountdown();
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+  }
+
+  function stopCountdown() {
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+  }
+
+  function updateCountdown() {
+    const box  = $('#countdownBox');
+    const text = $('#countdownText');
+    if (!box || !text) return;
+
+    if (!sessionExpiresAt || sessionExpiresAt === Infinity) {
+      box.classList.remove('warning', 'danger');
+      text.textContent = '∞ VĨNH VIỄN';
+      return;
+    }
+
+    const now = Date.now();
+    const remaining = sessionExpiresAt - now;
+
+    if (remaining <= 0) {
+      text.textContent = '00:00:00';
+      box.classList.remove('warning');
+      box.classList.add('danger');
+      handleExpired();
+      return;
+    }
+
+    const totalSec = Math.floor(remaining / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    const pad = n => String(n).padStart(2, '0');
+
+    if (h >= 24) {
+      const d = Math.floor(h / 24);
+      const rh = h % 24;
+      text.textContent = `${d}N ${pad(rh)}:${pad(m)}:${pad(s)}`;
+    } else {
+      text.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
+    box.classList.remove('warning', 'danger');
+    if (remaining <= 5 * 60 * 1000) box.classList.add('danger');
+    else if (remaining <= 60 * 60 * 1000) box.classList.add('warning');
+  }
+
+  let expiredHandled = false;
+  function handleExpired() {
+    if (expiredHandled) return;
+    expiredHandled = true;
+    stopCountdown();
+    toast('⛔ Key đã hết hạn, tự động đăng xuất');
+    setTimeout(() => {
+      clearSession();
+      window.location.reload();
+    }, 1500);
+  }
+
+  function updateUserInfo(session) {
+    const keyLabel    = $('#userKeyLabel');
+    const expireLabel = $('#userExpireLabel');
+    if (keyLabel) {
+      const k = session.key;
+      const masked = k.length > 12 ? k.slice(0, 12) + '****' : k;
+      keyLabel.textContent = 'KEY: ' + masked;
+    }
+    if (expireLabel) {
+      if (session.perm) {
+        expireLabel.textContent = 'HẠN: VĨNH VIỄN';
+      } else {
+        const d = new Date(session.expiresAt);
+        const pad = n => String(n).padStart(2, '0');
+        expireLabel.textContent = `HẠN: ${pad(d.getDate())}/${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+    }
+  }
+
+  function applySession(session) {
+    currentSessionKey = session.key;
+    sessionExpiresAt  = session.perm ? Infinity : session.expiresAt;
+    expiredHandled    = false;
+
+    updateUserInfo(session);
+    addLogEntry(session.key, session.label, session.perm);
+    startCountdown();
+    setTimeout(() => toast('👋 Chào mừng đến MINH ANH UI'), 500);
+  }
+
+  function handleLogout() {
+    clearSession();
+    stopCountdown();
+    currentSessionKey = '';
+    sessionExpiresAt  = 0;
+    toast('👋 Đã đăng xuất');
+    setTimeout(() => window.location.reload(), 600);
+  }
+
+  function checkAnyToggleOn() {
+    const toggleIds = ['aimlock','keotam','fixlo','giamrung','fixgiat','dpi'];
+    for (let id of toggleIds) {
+      const toggle = document.getElementById(id);
+      if (toggle && toggle.checked) return true;
+    }
+    return false;
+  }
+
+  function getEnabledBase64() {
+    const toggleIds = ['aimlock','keotam','fixlo','giamrung','fixgiat','dpi'];
+    const allBase64 = [];
+    for (let id of toggleIds) {
+      const toggle = document.getElementById(id);
+      if (toggle && toggle.checked) {
+        let base64Data = toggle.getAttribute('data-base64');
+        if (base64Data) {
+          const parts = base64Data.split(/[,|]/);
+          parts.forEach(item => {
+            const trimmed = item.trim();
+            if (trimmed) allBase64.push(trimmed);
+          });
+        }
+      }
+    }
+    return allBase64;
+  }
+
+  function decodeBase64(base64String) {
+    try { return atob(base64String); } catch (e) { return base64String; }
+  }
+
+  function showToastError(message) {
+    const toastErr = document.getElementById('toastError');
+    const msg = document.getElementById('errorMessage');
+    if (!toastErr || !msg) return;
+    msg.textContent = message || 'Vui lòng chọn ít nhất một chức năng!';
+    toastErr.classList.add('active');
+  }
+
+  function closeToastError() {
+    const t = document.getElementById('toastError');
+    if (t) t.classList.remove('active');
+  }
+
+  function showGameSelect() {
+    if (!checkAnyToggleOn()) {
+      showToastError('⚠️ Vui lòng chọn ít nhất một chức năng!');
+      return;
+    }
+    const gs = document.getElementById('gameSelect');
+    if (gs) gs.classList.add('active');
+  }
+
+  function closeGameSelect() {
+    const gs = document.getElementById('gameSelect');
+    if (gs) gs.classList.remove('active');
+  }
+
+  let selectedGame = '';
+  let loadingTimeout = null;
+
+  function selectGame(game) {
+    selectedGame = game;
+    closeGameSelect();
+    startLoading();
+  }
+
+  function startLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    const success = document.getElementById('loadingSuccess');
+    const text    = document.getElementById('loadingText');
+    const spinner = document.getElementById('loadingSpinner');
+    if (!overlay) return;
+
+    overlay.classList.add('active');
+    success.classList.remove('active');
+    text.style.display = 'block';
+    spinner.style.display = 'block';
+
+    if (loadingTimeout) clearTimeout(loadingTimeout);
+
+    const base64Array = getEnabledBase64();
+    const decodedArray = base64Array.map(b64 => decodeBase64(b64));
+
+    const payload = encodeURIComponent(JSON.stringify({
+      count: base64Array.length,
+      enabled: decodedArray,
+      base64: base64Array,
+      session: currentSessionKey
+    }));
+
+    loadingTimeout = setTimeout(() => {
+      spinner.style.display = 'none';
+      text.style.display = 'none';
+      success.classList.add('active');
+
+      loadingTimeout = setTimeout(() => {
+        if (selectedGame === 'freefire') {
+          window.location.href = `freefire://payload?data=${payload}`;
+        } else if (selectedGame === 'freefiremax') {
+          window.location.href = `freefiremax://payload?data=${payload}`;
+        }
+        overlay.classList.remove('active');
+      }, 3000);
+    }, 5000);
+  }
+
+  function initMainApp() {
+    const modules = $$('.module');
+
+    modules.forEach((mod, i) => {
+      const toggle = $('input[data-toggle]', mod);
+      const name   = $('.mod-name', mod)?.textContent || 'Module';
+
+      mod.style.animationDelay = (i * 60) + 'ms';
+
+      const tapLayer = $('.tap-layer', mod);
+      tapLayer?.addEventListener('click', () => {
+        toggle.checked = !toggle.checked;
+        syncModule(mod, toggle, name);
+      });
+
+      toggle.addEventListener('change', () => syncModule(mod, toggle, name));
+      toggle.addEventListener('click', (e) => e.stopPropagation());
+
+      attachPointerGlow(mod);
+    });
+
+    function syncModule(mod, toggle, name) {
+      const isOn = toggle.checked;
+      mod.classList.toggle('on', isOn);
+      toggle.closest('.switch')?.classList.toggle('checked', isOn);
+      flash(mod);
+      haptic();
+      toast((isOn ? '✅ Bật: ' : '⛔ Tắt: ') + name);
+      updateApplyState();
+    }
+
+    const applyBtn = $('#applyBtn');
+
+    function updateApplyState() {
+      if (!applyBtn) return;
+      const anyOn = checkAnyToggleOn();
+      applyBtn.classList.toggle('has-active', anyOn);
+      applyBtn.textContent = anyOn ? 'ÁP DỤNG PHIÊN BẢN · ĐANG BẬT' : 'ÁP DỤNG PHIÊN BẢN';
+    }
+
+    const navs = $$('.nav');
+    const panels = { home: null, monitor: $('#panel-monitor'), settings: $('#panel-settings') };
+    const mainBlocks = $$('.welcome, .section-title, .modules');
+
+    navs.forEach(nav => {
+      nav.addEventListener('click', () => {
+        navs.forEach(n => n.classList.remove('active'));
+        nav.classList.add('active');
+        haptic();
+
+        const target = nav.dataset.panel;
+        Object.values(panels).forEach(p => p?.classList.remove('show'));
+        mainBlocks.forEach(b => b.style.display = '');
+
+        if (target === 'home') {
+          toast('🧩 Chức năng');
+        } else {
+          mainBlocks.forEach(b => b.style.display = 'none');
+          panels[target]?.classList.add('show');
+          toast(target === 'monitor' ? '📊 Giám sát' : '⚙️ Thiết lập');
+          if (target === 'settings') renderKeyLog(currentSessionKey);
+        }
+      });
+    });
+
+    const mCpu = $('#mCpu'), mRam = $('#mRam'), mFps = $('#mFps'), mPing = $('#mPing');
+    function updateMonitor() {
+      if (mCpu)  mCpu.textContent  = (20 + Math.random() * 40).toFixed(0) + '%';
+      if (mRam)  mRam.textContent  = (1.2 + Math.random() * 2).toFixed(2) + ' GB';
+      if (mFps)  mFps.textContent  = (55 + Math.random() * 5).toFixed(0) + ' FPS';
+      if (mPing) mPing.textContent = (18 + Math.random() * 30).toFixed(0) + ' ms';
+    }
+    updateMonitor();
+    setInterval(updateMonitor, 1500);
+
+    applyBtn?.addEventListener('click', showGameSelect);
+
+    const clearLogBtn = $('#clearLogBtn');
+    clearLogBtn?.addEventListener('click', () => {
+      if (!confirm('Bạn chắc chắn muốn xóa toàn bộ lịch sử key?')) return;
+      localStorage.removeItem(LOG_KEY);
+      renderKeyLog(currentSessionKey);
+      toast('🗑️ Đã xóa lịch sử key');
+      haptic();
+    });
+
+    setInterval(() => { if (currentSessionKey) updateLogLastSeen(currentSessionKey); }, 60 * 1000);
+
+    const logoutBtn = $('#logoutBtn');
+    logoutBtn?.addEventListener('click', handleLogout);
+
+    const zaloBtn = $('#zaloBtn');
+    zaloBtn?.addEventListener('click', () => {
+      window.location.href = 'https://zalo.me/84877446154';
+    });
+
+    $$('.apply-btn, .package-option, .nav, .key, .game-select-cancel, .logout-btn, .log-clear-btn').forEach(attachRipple);
+
+    updateApplyState();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') showGameSelect();
+    if (e.key === 'Escape') { closeGameSelect(); closeToastError(); }
+  });
+
+  const toastErrEl = document.getElementById('toastError');
+  toastErrEl?.addEventListener('click', function(e) { if (e.target === this) closeToastError(); });
+
+  const gameSelectEl = document.getElementById('gameSelect');
+  gameSelectEl?.addEventListener('click', function(e) { if (e.target === this) closeGameSelect(); });
+
+  // Expose global
+  window.selectGame = selectGame;
+  window.closeGameSelect = closeGameSelect;
+  window.showGameSelect = showGameSelect;
+  window.closeToastError = closeToastError;
+
+  // Zalo float (chỉ hiển thị ở login)
+  function initZaloFloat() {
+    const zaloFloat = $('#zaloFloat');
+    if (!zaloFloat) return;
+    let hideTimer = null;
+
+    zaloFloat.addEventListener('click', () => {
+      if (navigator.vibrate) navigator.vibrate(15);
+      window.location.href = 'https://zalo.me/84877446154';
+    });
+
+    setTimeout(() => {
+      zaloFloat.classList.add('show-tooltip');
+      hideTimer = setTimeout(() => zaloFloat.classList.remove('show-tooltip'), 4000);
+    }, 1200);
+
+    zaloFloat.addEventListener('mouseenter', () => {
+      clearTimeout(hideTimer);
+      zaloFloat.classList.add('show-tooltip');
+    });
+    zaloFloat.addEventListener('mouseleave', () => zaloFloat.classList.remove('show-tooltip'));
+  }
+
+  // Bắt đầu khi login thành công
+  function startApp() {
+    const app = $('#mainApp');
+    if (!app) return;
+    app.classList.add('show');
+    createParticles();
+
+    const session = loadSession();
+    if (!session) {
+      // Nếu không có session (lỗi) → reload
+      window.location.reload();
+      return;
+    }
+
+    initMainApp();
+    applySession(session);
+
+    // Ẩn zalo float khi vào app
+    const zf = $('#zaloFloat');
+    if (zf) zf.classList.remove('show', 'show-tooltip');
+  }
+
+  window.addEventListener('minhanh:login-success', startApp);
+
+  // Nếu load xong mà app đã có session và login đã ẩn (case bootLogin đã dispatch trước khi listener này đăng ký)
+  function bootApp() {
+    const session = loadSession();
+    const loginScreen = $('#loginScreen');
+    if (session && loginScreen && loginScreen.classList.contains('hide')) {
+      startApp();
+    } else {
+      // Hiện zalo float ở màn login
+      const zf = $('#zaloFloat');
+      if (zf) zf.classList.add('show');
+      initZaloFloat();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootApp);
+  } else {
+    bootApp();
+  }
+})();
+</script>
+
 </body>
 </html>
